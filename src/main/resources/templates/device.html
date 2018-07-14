@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<!-- saved from url=(0046)http://bootstrap.gallery/everest-v3/index.html -->
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+<meta name="description" content="Triote IoT Panel"></meta>
+<meta name="keywords"
+	content="Admin, Dashboard, Bootstrap3, Sass, transform, CSS3, HTML5, Web design, UI Design, Responsive Dashboard, Responsive Admin, Admin Theme, Best Admin UI, Bootstrap Theme, Wrapbootstrap, Bootstrap"></meta>
+<meta name="author" content="Bootstrap Gallery"></meta>
+
+<link rel="shortcut icon" th:href="@{./resources/static/img/tor-icon.png}"></link>
+<title>Triote IoT Panel</title>
+
+<script th:src="@{./resources/static/js/jquery-1.10.2.min.js}"></script>
+<script th:src="@{./resources/static/js/bootstrap.min.js}"></script>
+
+
+<!-- Bootstrap CSS -->
+<link href="./css/bootstrap.min.css" th:href="@{./resources/static/css/bootstrap.min.css}" type="text/css" rel="stylesheet" media="screen"></link>
+
+<!-- Animate CSS -->
+<link href="./css/animate.css" th:href="@{./resources/static/css/animate.css}" type="text/css" rel="stylesheet" media="screen"></link>
+
+<!-- Alertify CSS -->
+<link th:href="@{./resources/static/css/alertify.core.css}" rel="stylesheet"></link>
+<link th:href="@{./resources/static/css/alertify.default.css}" rel="stylesheet"></link>
+
+<!-- Main CSS -->
+<link href="./css/main.css" th:href="@{./resources/static/css/main.css}" type="text/css" rel="stylesheet" media="screen"></link>
+
+<!-- Datepicker CSS -->
+<link rel="stylesheet" type="text/css" href="./css/datepicker.css" th:href="@{./resources/static/css/datepicker.css}"></link>
+
+<!-- Bar Indicator -->
+<link href="./css/barIndicator.css" th:href="@{./resources/static/css/barIndicator.css}" type="text/css" rel="stylesheet"></link>
+
+<!-- Font Awesome -->
+<link href="./css/font-awesome.min.css" th:href="@{./resources/static/css/font-awesome.min.css}" type="text/css" rel="stylesheet"></link>
+
+<!-- Datatable CSS -->
+<link th:href="@{./resources/static/css/dataTables.bs.min.css}" type="text/css" rel="stylesheet"></link>
+<link th:href="@{./resources/static/css/autoFill.bs.min.css}" type="text/css" rel="stylesheet"></link>
+<link th:href="@{./resources/static/css/fixedHeader.bs.css}" type="text/css" rel="stylesheet"></link>
+<link th:href="@{./resources/static/css/buttons.bs.css}" type="text/css" rel="stylesheet"></link>
+
+<link th:href="@{./resources/static/css/c3/c3.css}" type="text/css" rel="stylesheet"></link>
+
+<!-- 		Highcharts  -->
+<script th:src="@{./resources/static/js/highcharts/highcharts.js}"></script>
+<script th:src="@{./resources/static/js/highcharts/exporting.js}"></script>
+
+<!-- 		Bootstrap Toggle  -->
+
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet"></link>
+<script th:src="@{./resources/static/js/bootstrap-toggle.min.js}"></script>
+
+
+<script th:src="@{./resources/static/js/portaljs/device.js}"></script>
+
+<script th:inline="javascript">
+		/*<![CDATA[*/
+		
+		    var dataArr = new Array();
+		    var subsArray = new Array();
+		    var grpDeviceInfoArray = new Array();
+		    var dev = [[${dev}]]; 
+		    var subs = [[${subs}]];
+		    var xxx = [[${xxx}]];
+		    var modulClassLs = [[${modulClassLs}]];
+		    var flexContMap = [[${flexContMap}]];
+		    var deviceInfoList = [[${deviceInfoList}]];
+		    
+		    
+		    if(dev.hasOwnProperty('data') || 'data' in dev){		    	
+		    	var datas = dev.data.content; // [[${dev.data.content}]]; 
+//	 		    data.attributeList
+//	 		    {val: "LAMP", name: "type"}
+			    for (i=0; i<datas.length; i++){
+			    	var dataObj={};
+			    	dataObj.resourceId = datas[i].resourceId;
+			    	dataObj.resourceName = datas[i].resourceName;
+			    	dataObj.createDate = datas[i].createDate;
+			    	
+			    	for(j=0; j<datas[i].attributeList.length; j++){
+			    		dataObj[datas[i].attributeList[j].name] = datas[i].attributeList[j].val;
+			    	}
+			    	dataArr.push(dataObj);
+			    }
+		    }
+		    if(subs!=null){
+			    for (i=0; i<subs.length; i++){
+			    	var dataObj={};
+			    	dataObj.ct = subs[i].ct;
+			    	dataObj.nu = subs[i].nu;
+			    	dataObj.rn = subs[i].rn;
+			    	dataObj.ri = subs[i].ri;
+			    	dataObj.lbl = subs[i].lbl;
+			    	dataObj.pi = subs[i].pi;
+			    	dataObj.acpi = subs[i].acpi;
+			    	dataObj.lt = subs[i].lt;
+			    	subsArray.push(dataObj);
+			    }
+		    }	
+		    if(deviceInfoList!=null){
+			    for (i=0; i<deviceInfoList.length; i++){
+			    	var dataObj={};
+			    	dataObj.huri = deviceInfoList[i].huri;
+			    	dataObj.prDNe = deviceInfoList[i].prDNe;
+			    	dataObj.pDSNm = deviceInfoList[i].pDSNm;
+			    	dataObj.rn = deviceInfoList[i].rn;
+			    	grpDeviceInfoArray.push(dataObj);
+			    }
+		    }
+		    
+		/*]]>*/
+		</script>
+
+</head>
+<body>
+	<!-- Left sidebar starts -->
+	<div th:include="leftMenu :: menuTemplate"></div>
+	<!-- Left sidebar ends -->
+
+	<!-- Dashboard Wrapper starts -->
+	<div class="dashboard-wrapper">
+		<div class="formden_header" th:unless="${#lists.isEmpty(allReferers)}">
+			<table>
+				<thead>
+					<tr>
+						<th th:each="ref,rowStat : ${allReferers}"><label
+							th:if="${rowStat.count} &gt; 1" th:text="#{>}"> </label> <a
+							class="btn btn-link" th:href="@{${{ref.url}}}"
+							th:text="#{${'label.referer.' + ref.label}} + ${' (' + ref.resource + ')'}"></a></th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		<!-- Top Bar starts -->
+		<div class="top-bar">
+			<div class="page-title">Device Content</div>
+			<ul class="stats hidden-xs">
+
+			</ul>
+		</div>
+
+		<!-- Top Bar ends -->
+
+		<!-- Main Container starts -->
+		<div class="main-container">
+
+			<!-- Container fluid Starts -->
+			<div class="container-fluid">
+
+				<!-- Spacer starts -->
+				<div class="spacer-no-top">
+					<div class="row gutter" th:if="${#authorization.expression('hasAuthority(''CREATE_SUBSCRIPTION_DEVICE'')') and isData}">
+
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div class="panel">
+								<div class="panel-heading">
+									<h4 class="panel-title">Device Subscription</h4>
+								</div>
+								<div class="panel-body">
+									<button id="subscriptionModalBtn" class="btn btn-success"
+										data-toggle="modal" data-target="#subscriptionModal"
+										data-original-title="" title=""
+										th:text="${'Subscribe ' +resourceName}"></button>
+									<!-- Modal -->
+									<div class="modal fade" id="subscriptionModal" tabindex="-1"
+										role="dialog" aria-labelledby="myModalLabel5"
+										aria-hidden="true">
+										<div class="modal-dialog">
+											<div id="subsModal" class="modal-content">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal"
+														aria-hidden="true">×</button>
+													<h4 class="modal-title text-info" id="myModalLabel5">Subscription
+														Info</h4>
+												</div>
+												<div class="modal-body">
+													<form id="ipForm" role="form" data-toggle="validator">
+														<div class="form-group">
+															<label for="count">Subscription Name:</label> <input
+																type="text" class="form-control" id="resourceName"
+																placeholder="Enter resource name"></input>
+														</div>
+														<div class="form-group">
+															<label for="count">Resource IP:</label> <input
+																id="resourceIp"
+																placeholder="Ex: http://127.0.0.1:1400/monitor"
+																type="text" class="form-control"> </input> <label
+																id="invalidURL" style="color: red"></label>
+														</div>
+													</form>
+
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-danger"
+														data-dismiss="modal" data-original-title="" title="">
+														<i class="fa fa-times"></i> Close
+													</button>
+													<button id="subscribe" type="button"
+														class="btn btn-success" data-original-title="" title=""
+														onclick="ValidURL(document.getElementById('resourceIp').value)">
+														<i class="fa fa-save"></i> Subscribe
+													</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Row End -->
+					<!-- Row starts -->
+					<div class="row gutter">
+						<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+							<div class="panel panel-light">
+								<div class="panel-heading">
+									<h4 class="panel-title">Gateways Consumptions in GWG(Watt)</h4>
+								</div>
+								<div style="width: 80%; margin: 0 auto; margin-bottom: 0.5em">
+									<div>
+										<label class="radio-inline"> <input type="radio"
+											name="optradio" id="inlineRadio1" value="1">Last 1
+											Day</input>
+										</label> <label class="radio-inline"> <input type="radio"
+											name="optradio" id="inlineRadio2" value="7">Last 7
+											Days</input>
+										</label> <label class="radio-inline "> <input type="radio"
+											name="optradio" id="inlineRadio3" value="30" checked="true">Last
+											30 Days</input>
+										</label>
+										<script> $("input[name=optradio]").change(function () {
+											loadReportDataByDuration(3,this.value);
+										
+										});</script>
+									</div>
+								</div>
+								<div class="panel-body">
+									<div id="container"
+										class="chart-height2 col-lg-12 col-md-12 col-sm-6 col-xs-6"></div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+							<div class="panel panel-light">
+								<div class="panel-heading">
+									<h4 class="panel-title">Dim Levels (Lamps)</h4>
+								</div>
+								<div class="panel-body">
+									<div id="stackedBarGraph"
+										class="chart-height3 col-lg-12 col-md-12 col-sm-6 col-xs-6"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Row ends -->
+					<div class="row gutter" th:if="${#lists.isEmpty(deviceInfoList)}">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div class="panel">
+								<div class="panel-heading">
+									<h4 class="panel-title">Device Info</h4>
+								</div>
+								<div class="panel-body">
+									<div id="basicDeviceInfo" class="list-group no-margin" th:if="${not #lists.isEmpty(dev.descriptor.content.operationList)}">
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 list-group-item list-group-item-warning-new">
+											<a class="col-lg-6 col-md-6 col-sm-6 col-xs-6" href="#" th:text="${'Resource Name: '}"></a>
+											<a class="col-lg-6 col-md-6 col-sm-6 col-xs-6" href="#" th:text="${resourceName}"></a>
+										</div>
+										<br />
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 list-group-item list-group-item-info-new">
+											<a class="col-lg-6 col-md-6 col-sm-6 col-xs-6" th:text="${'Resource Type '}"></a>
+											<a class="col-lg-6 col-md-6 col-sm-6 col-xs-6" th:text="${type}"></a>
+										</div>
+										<br />
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 list-group-item list-group-item-warning-new">
+											<a class="col-lg-6 col-md-6 col-sm-6 col-xs-6" th:text="${'Resource Id: '}"></a>
+											<a class="col-lg-6 col-md-6 col-sm-6 col-xs-6" th:text="${resourceId}"></a>
+										</div>
+										<br />
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 list-group-item list-group-item-info-new">
+											<a class="col-lg-6 col-md-6 col-sm-6 col-xs-6" th:text="${'Resource Create Date: '}"></a>
+											<a class="col-lg-6 col-md-6 col-sm-6 col-xs-6" th:text="${createDate}"></a>
+										</div>
+										<br />
+										<div
+											class="col-lg-12 col-md-12 col-sm-12 col-xs-12 list-group-item list-group-item-warning-new">
+											<a class="col-lg-6 col-md-6 col-sm-6 col-xs-6" th:text="${'Resource Last Update Date: '}"></a>
+											<a class="col-lg-6 col-md-6 col-sm-6 col-xs-6" th:text="${lastUpdateDate}"></a>
+										</div>
+										<br />
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 list-group-item list-group-item-info-new">
+											<a class="col-lg-6 col-md-6 col-sm-6 col-xs-6" th:text="${'Lamp State: '}"></a>
+											<a id="lampStateRow" class="col-lg-6 col-md-6 col-sm-6 col-xs-6"></a>
+										</div>
+										<br />
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 list-group-item list-group-item-warning-new">
+											<a class="col-lg-6 col-md-6 col-sm-6 col-xs-6"	th:text="#{${'label.execution.time'}} + ':'"></a>
+											<a	id="executionTimeRow" class="col-lg-6 col-md-6 col-sm-6 col-xs-6" th:text="${executionTime}"></a>
+										</div>
+									</div>
+									
+									<div id="sdtDeviceInfo"  class="list-group no-margin" th:if="not ${flexContMap.isEmpty()}" th:each="entry : ${flexContMap.keySet()}">
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 list-group-item list-group-item-warning-new-bold">
+											<a class="col-lg-3 col-md-3 col-sm-3 col-xs-6" href="#" th:text="${entry }"></a>
+											<p class="col-lg-9 col-md-9 col-sm-9 col-xs-6" th:text="${flexContMap.get(entry)}"></p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Row End -->
+
+					<!-- Row Start -->
+					<div class="row">
+						<div class="col-lg-12 col-md-12 col-sx-12 col-sm-12">
+							<ul id="myTab" class="nav nav-tabs">
+								<li  class="active" th:if="${not #lists.isEmpty(dev.descriptor.content.operationList)}"><a href="#home" data-toggle="tab">Operations</a></li>
+								<li class="active" th:if="${not #lists.isEmpty(modulClassLs)}"><a href="#modulClassLs" data-toggle="tab">SDT Modules</a></li>
+								<li th:if="${not #lists.isEmpty(deviceInfoList)}"><a href="#deviceInfoLs" data-toggle="tab">Group Device Infos</a></li>
+								<li th:if="${isData} == true"><a href="#data" data-toggle="tab" >Last 20 Datas</a></li>
+								<li th:if="${isData} == true"><a href="#subs" data-toggle="tab" >Subscriptions</a></li>
+								<li th:if="${isData} == false and ${not #lists.isEmpty(dev.descriptor.content.operationList)}"><a href="#lastStates1" data-toggle="tab" >Last States</a></li>
+																
+							</ul>
+							<div id="myTabContent" class="tab-content">
+								<div class="tab-pane fade in active" id="home" th:if="${not #lists.isEmpty(dev.descriptor.content.operationList)}">
+									<script>
+									$(document).ready(function() {
+									    $('#basicExample').DataTable();
+									} );
+									</script>
+									<table id="basicExample"
+										class="table table-striped table-condensed table-bordered no-margin">
+										<thead>
+											<tr>
+												<th>Operation</th>
+												<th>Operation Uri</th>
+												<th>Oparation Type</th>
+											</tr>
+										</thead>
+										<tfoot>
+											<tr>
+												<th>Operation</th>
+												<th>Operation Uri</th>
+												<th>Oparation Type</th>
+											</tr>
+										</tfoot>
+										<tbody
+											th:each="operation : ${dev.descriptor.content.operationList}">
+											<tr>
+												<td th:if="${operation.inputType}!='slider'"><a
+													class="btn btn-default"
+													th:onclick="|doOperation( '${operation.opName}' ,'${operation.opHref}','${operation.isControl}', '${operation.groupOpName}' )|"
+													th:text="${operation.displayName}"></a></td>
+												<td th:if="${operation.inputType}=='slider'"><label
+													for="dimLevel" th:text="${operation.displayName}"></label><input
+													type="range" name="points" id="dimLevel" value="50" min="0"
+													max="100"
+													th:oninput="|setDimLevel( '${operation.opName}' ,'${operation.opHref}','${operation.isControl}', '${operation.groupOpName}' )|"></input></td>
+												<td th:text="${operation.opHref}"></td>
+												<td th:text="${operation.isControl}"></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								
+								<div class="tab-pane fade in active" id="modulClassLs" th:if="${not #lists.isEmpty(modulClassLs)}">
+									<script>
+									$(document).ready(function() {
+									    $('#modulClassLsTbl').DataTable();
+									} );
+									</script>
+									<table id="modulClassLsTbl"
+										class="table table-striped table-condensed table-bordered no-margin">
+										<thead>
+											<tr>
+												<th>Container Definition</th>
+												<th>Owner</th>
+												<th>Custom Attribute</th>
+												<th>Operation</th>
+											</tr>
+										</thead>
+										<tfoot>
+											<tr>
+												<th>Container Definition</th>
+												<th>Owner</th>
+												<th>Custom Attribute</th>
+												<th>Operation</th>
+											</tr>
+										</tfoot>
+										<tbody
+											th:each="moduleClass : ${modulClassLs}">
+											<tr>											
+												<td th:text="${moduleClass.containerDefinition}"></td>
+												<td th:text="${moduleClass.owner}"></td>
+												<td th:id="${moduleClass.moduleType}+'Row'">
+													<div th:each="ca : ${moduleClass.caList}">
+														<label th:for="${ca.name}" th:text="${ca.name}"></label><br/>
+														<label th:id="${ca.name}" th:if="${ca.writable==false}" th:text="${ca.lastValue}" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="background-color: #f1ec8f; text-align: center; text-transform: uppercase"></label><br/>
+														<input class="caAttributeCls" th:if="${ca.returnType=='java.lang.Integer' and ca.writable == true}" th:id="${ca.name}" th:name="${ca.name}" type="number" th:value="${ca.lastValue}" th:attr="data-maxvalue=''+${ca.maxValue}+'', data-minvalue=''+${ca.minValue}+''"
+														 style="background-color: #ece0e0;max-width: 60px;" />
+															<script>
+															// <![CDATA[
+															            
+															$(function() {
+																  $('.caAttributeCls').on('keyup', function() {
+																    var val = parseInt($(this).val()),
+																	maxLimit = $(this).data('maxvalue'),
+																   minLimit = $(this).data('minvalue');
+																	var returnVal = val;
+																    
+																    if(isNaN(val)){
+																    	returnVal = 0;
+																    }
+																    if((!isNaN(val)) && (maxLimit != null)&& (maxLimit < val)){
+																    	returnVal = maxLimit;
+																    }
+																    if((!isNaN(val)) && (minLimit != null)&&(minLimit > val)){
+																    	returnVal = minLimit;
+																    }
+																    
+																    $(this).val(returnVal);
+																  });
+																});
+															// ]]>
+															</script>
+															
+															<input data-onstyle="success" data-offstyle="danger" th:if="${ca.returnType=='java.lang.Boolean' and ca.writable == true}"  th:id="${ca.name}" th:name="${ca.name}" type="checkbox" th:attr="data-lastValue=''+${ca.lastValue}+''" data-toggle="toggle" data-on="TRUE" data-off="FALSE"/>
+
+													</div>
+												</td>
+												<td>
+													<button id="updateModalBtn" class="btn btn-info" data-original-title="" title=""	style="margin-top: 1em;"														
+															sec:authorize="hasAuthority('EDIT_COMPANY') or  #strings.contains(#authentication.principal.roles,'SUPERADMIN')"
+															th:onclick="|doExecute( '${moduleClass.huri}','${moduleClass.moduleType}' ,'${moduleClass.resourceId}','${moduleClass.resourceName}', '${moduleClass.containerDefinition}' , '${flexContMap.anncHuri}')|">Execute</button>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								
+								
+								<div class="tab-pane fade in" id="deviceInfoLs" th:if="${not #lists.isEmpty(deviceInfoList)}">
+									
+									<table id="grpDeviceInfosTbl"
+										class="table table-striped table-condensed table-bordered no-margin">
+										<thead>
+											<tr>
+												<th>Device Name</th>
+												<th>Serial Number</th>
+												<th>Resource Name</th>
+												<th>Hierarchical Uri</th>
+											</tr>
+										</thead>
+										<tfoot>
+											<tr>
+												<th>Device Name</th>
+												<th>Serial Number</th>
+												<th>Resource Name</th>
+												<th>Hierarchical Uri</th>
+											</tr>
+										</tfoot>
+									</table>
+								</div>
+								
+								
+								
+								<div class="tab-pane fade" id="profile"></div>
+								<div class="tab-pane fade" id="dropdown1"></div>
+								<div class="tab-pane fade" id="dropdown2">
+									<div class="list-group no-margin">
+										<a href="#" class="list-group-item list-group-item-primary"
+											th:text="${dev.descriptor.resourceName}"><span
+											class="badge badge-success"></span></a> <a href="#"
+											class="btn btn-default"
+											th:text="${dev.descriptor.resourceId}"><span
+											class="badge badge-success"></span></a> <a href="#"
+											class="list-group-item list-group-item-primary"
+											th:text="${dev.descriptor.type}"><span
+											class="badge badge-success"></span></a>
+									</div>
+								</div>
+								
+								<div class="tab-pane fade" id="data">
+									
+									<div class="table-responsive">
+										<div id="copy-print-csv_wrapper"
+											class="dataTables_wrapper form-inline dt-bootstrap">
+											<div class="dt-buttons"></div>
+											<div id="copy-print-csv_filter" class="dataTables_filter">
+
+											</div>
+											<table id="last20Data1"
+												class="display table table-striped table-bordered no-margin dataTable"
+												role="grid" aria-describedby="last20Data1_info"
+												style="width: 100%;">
+												<thead>
+													<tr role="row">
+														<th class="sorting_asc" tabindex="0"
+															aria-controls="last20Data" rowspan="1" colspan="1"
+															aria-label="Resource Name: activate to sort column ascending"
+															style="width: 266px;">Resource Name</th>
+														<th class="sorting" tabindex="0"
+															aria-controls="last20Data" rowspan="1" colspan="1"
+															aria-label="Resource Id: activate to sort column ascending"
+															style="width: 121px;">Resource Id</th>
+														<th class="sorting" tabindex="0"
+															aria-controls="last20Data" rowspan="1" colspan="1"
+															aria-label="Type: activate to sort column ascending"
+															style="width: 66px;">Type</th>
+														<th class="sorting" tabindex="0"
+															aria-controls="last20Data" rowspan="1" colspan="1"
+															aria-label="Create Date: activate to sort column ascending"
+															style="width: 66px;">Create Date</th>
+														<th class="sorting_asc" tabindex="0"
+															aria-controls="last20Data" rowspan="1" colspan="1"
+															aria-label="Location: activate to sort column ascending"
+															style="width: 266px;">Location</th>
+														<th class="sorting" tabindex="0"
+															aria-controls="last20Data" rowspan="1" colspan="1"
+															aria-label="Device Id: activate to sort column ascending"
+															style="width: 121px;">Device Id</th>
+														<th class="sorting" tabindex="0"
+															aria-controls="last20Data" rowspan="1" colspan="1"
+															aria-label="State: activate to sort column ascending"
+															style="width: 66px;">State</th>
+														<th class="sorting" tabindex="0"
+															aria-controls="last20Data" rowspan="1" colspan="1"
+															aria-label="Dim Level: activate to sort column ascending"
+															style="width: 66px;">Dim Level</th>
+
+													</tr>
+												</thead>
+												<tfoot>
+													<tr>
+														<th rowspan="1" colspan="1">Resource Name</th>
+														<th rowspan="1" colspan="1">Resource Id</th>
+														<th rowspan="1" colspan="1">Type</th>
+														<th rowspan="1" colspan="1">Create Date</th>
+														<th rowspan="1" colspan="1">Location</th>
+														<th rowspan="1" colspan="1">Device Id</th>
+														<th rowspan="1" colspan="1">State</th>
+														<th rowspan="1" colspan="1">Dim Level</th>
+													</tr>
+												</tfoot>
+											</table>
+											<div class="dataTables_paginate paging_simple_numbers"
+												id="last20Data1_paginate"></div>
+										</div>
+									</div>
+								</div>
+
+								<div class="tab-pane fade" id="subs">
+								
+										
+									<div class="table-responsive">
+										<div id="copy-print-csv_wrapper"
+											class="dataTables_wrapper form-inline dt-bootstrap">
+											<div class="dt-buttons"></div>
+											<div id="copy-print-csv_filter" class="dataTables_filter">
+
+											</div>
+											<table id="subscriptions"
+												class="display table table-striped table-bordered no-margin dataTable"
+												role="grid" aria-describedby="subscriptions_info"
+												style="width: 100%;">
+												<thead>
+													<tr role="row">
+														<th class="sorting_asc" tabindex="0"
+															aria-controls="subscriptions" rowspan="1" colspan="1"
+															aria-label="Resource Name: activate to sort column ascending"
+															style="width: 266px;">Create Date</th>
+														<th class="sorting" tabindex="0"
+															aria-controls="subscriptions" rowspan="1" colspan="1"
+															aria-label="Resource Id: activate to sort column ascending"
+															style="width: 121px;">Notify URI</th>
+														<th class="sorting" tabindex="0"
+															aria-controls="subscriptions" rowspan="1" colspan="1"
+															aria-label="Type: activate to sort column ascending"
+															style="width: 66px;">Resource Name</th>
+														<th class="sorting_asc" tabindex="0"
+															aria-controls="subscriptions" rowspan="1" colspan="1"
+															aria-label="Resource Name: activate to sort column ascending"
+															style="width: 266px;">Resource Id</th>
+														<th class="sorting" tabindex="0"
+															aria-controls="subscriptions" rowspan="1" colspan="1"
+															aria-label="Resource Id: activate to sort column ascending"
+															style="width: 121px;">Subscription Name</th>
+														<th class="sorting" tabindex="0"
+															aria-controls="subscriptions" rowspan="1" colspan="1"
+															aria-label="Type: activate to sort column ascending"
+															style="width: 66px;">Parent Id</th>
+														<th class="sorting" tabindex="0"
+															aria-controls="subscriptions" rowspan="1" colspan="1"
+															aria-label="Type: activate to sort column ascending"
+															style="width: 66px;">Access Policy Id</th>
+														<th class="sorting" tabindex="0"
+															aria-controls="subscriptions" rowspan="1" colspan="1"
+															aria-label="Type: activate to sort column ascending"
+															style="width: 66px;">Last Modified Time</th>
+													</tr>
+												</thead>
+												<tfoot>
+													<tr>
+														<th rowspan="1" colspan="1">Create Date</th>
+														<th rowspan="1" colspan="1">Notify URI</th>
+														<th rowspan="1" colspan="1">Resource Name</th>
+														<th rowspan="1" colspan="1">Resource Id</th>
+														<th rowspan="1" colspan="1">Subscription Name</th>
+														<th rowspan="1" colspan="1">Parent Id</th>
+														<th rowspan="1" colspan="1">Access Policy Id</th>
+														<th rowspan="1" colspan="1">Last Modified Time</th>
+													</tr>
+												</tfoot>
+											</table>
+											<div class="dataTables_paginate paging_simple_numbers"
+												id="subscriptions_paginate"></div>
+										</div>
+									</div>
+								</div>
+
+								<!-- group tab start -->
+								<div class="tab-pane fade" id="lastStates1">
+									<!--<script>
+										$(document).ready(function() {
+										    $('#lastStates').DataTable();
+										} );
+										</script>-->
+									<div class="table-responsive">
+										<div id="copy-print-csv_wrapper"
+											class="dataTables_wrapper form-inline dt-bootstrap">
+											<div class="dt-buttons"></div>
+											<div id="copy-print-csv_filter" class="dataTables_filter">
+
+											</div>
+											<table id="lastStates"
+												class="display table table-striped table-bordered no-margin dataTable"
+												role="grid" aria-describedby="lastStates_info"
+												style="width: 100%;">
+												<thead>
+													<tr role="row">
+														<th class="sorting_asc" tabindex="0"
+															aria-controls="lastStates" rowspan="1" colspan="1"
+															aria-label="Resource Name: activate to sort column ascending"
+															style="width: 266px;">Create Date</th>
+														<th class="sorting" tabindex="0"
+															aria-controls="lastStates" rowspan="1" colspan="1"
+															aria-label="Resource Id: activate to sort column ascending"
+															style="width: 121px;">Type</th>
+														<th class="sorting" tabindex="0"
+															aria-controls="lastStates" rowspan="1" colspan="1"
+															aria-label="Resource Id: activate to sort column ascending"
+															style="width: 121px;">Lamp Id</th>
+														<th class="sorting" tabindex="0"
+															aria-controls="lastStates" rowspan="1" colspan="1"
+															aria-label="Resource Id: activate to sort column ascending"
+															style="width: 121px;">State</th>
+														<th class="sorting" tabindex="0"
+															aria-controls="lastStates" rowspan="1" colspan="1"
+															aria-label="Resource Id: activate to sort column ascending"
+															style="width: 121px;">Dim Level</th>
+														<th class="sorting" tabindex="0"
+															aria-controls="lastStates" rowspan="1" colspan="1"
+															aria-label="Resource Id: activate to sort column ascending"
+															style="width: 121px;">Location</th>
+													</tr>
+												</thead>
+												<tfoot>
+													<tr>
+														<th rowspan="1" colspan="1">Create Date</th>
+														<th rowspan="1" colspan="1">Type</th>
+														<th rowspan="1" colspan="1">Lamp Id</th>
+														<th rowspan="1" colspan="1">State</th>
+														<th rowspan="1" colspan="1">Dim Level</th>
+														<th rowspan="1" colspan="1">Location</th>
+													</tr>
+												</tfoot>
+											</table>
+
+											<div class="dataTables_paginate paging_simple_numbers"
+												id="lastStates_paginate"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<!-- Row End -->
+					
+				</div>
+				<!-- Spacer ends -->
+
+			</div>
+			<!-- Container fluid ends -->
+		</div>
+		<!-- Main Container ends -->
+
+		<!-- Footer starts -->
+		<footer> Copyright Triote IoT Panel 2017. </footer>
+		<!-- Footer ends -->
+
+	</div>
+
+	<!-- Dashboard Wrapper ends -->
+
+	<!-- jQuery UI JS -->
+	<script th:src="@{./resources/static/js/jquery-ui-v1.10.2.js}"></script>
+
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+<!-- 	<script th:src="@{./resources/static/js/bootstrap.min.js}"></script> -->
+	
+	<!-- Sparkline graphs -->
+	<script th:src="@{./resources/static/js/sparkline.js}"></script>
+
+	<!-- jquery ScrollUp JS -->
+	<script th:src="@{./resources/static/js/scrollup/jquery.scrollUp.js}"></script>
+
+	<!-- Sliders JS -->
+	<script th:src="@{./resources/static/js/bootstrap-slider.js}"></script>
+
+	<!-- Notifications JS -->
+	<script th:src="@{./resources/static/js/alertify.js}"></script>
+	<script th:src="@{./resources/static/js/alertify-custom.js}"></script>
+
+	<!-- Custom Index -->
+	<script th:src="@{./resources/static/js/custom.js}"></script>
+	<script th:src="@{./resources/static/js/custom-components.js}"></script>
+
+	<!-- JQuery Datatable JS (required for datatables)-->
+	<script th:src="@{./resources/static/js/jquery.dataTables.min.js}"></script>
+
+	<!-- Data Tables -->
+	<script th:src="@{./resources/static/js/datatables/dataTables.min.js}"		src="js/datatables/dataTables.min.js"></script>
+	<script	th:src="@{./resources/static/js/datatables/dataTables.bootstrap.min.js}"	src="js/datatables/dataTables.bootstrap.min.js"></script>
+	<script	th:src="@{./resources/static/js/datatables/dataTables.tableTools.js}"	src="js/datatables/dataTables.tableTools.js"></script>
+	<script th:src="@{./resources/static/js/datatables/autoFill.min.js}"	src="js/datatables/autoFill.min.js"></script>
+	<script	th:src="@{./resources/static/js/datatables/autoFill.bootstrap.min.js}"	src="js/datatables/autoFill.bootstrap.min.js"></script>
+	<script th:src="@{./resources/static/js/datatables/fixedHeader.min.js}"	src="js/datatables/fixedHeader.min.js"></script>		
+
+
+	<!-- Download / CSV / Copy / Print -->
+	<script th:src="@{./resources/static/js/datatables/buttons.min.js}"	src="js/datatables/buttons.min.js"></script>
+	<script th:src="@{./resources/static/js/datatables/flash.min.js}"	src="js/datatables/flash.min.js"></script>
+	<script th:src="@{./resources/static/js/datatables/jszip.min.js}"	src="js/datatables/jszip.min.js"></script>
+	<script th:src="@{./resources/static/js/datatables/pdfmake.min.js}"	src="js/datatables/pdfmake.min.js"></script>
+	<script th:src="@{./resources/static/js/datatables/vfs_fonts.js}"	src="js/datatables/vfs_fonts.js"></script>
+	<script th:src="@{./resources/static/js/datatables/html5.min.js}"	src="js/datatables/html5.min.js"></script>
+	<script th:src="@{./resources/static/js/datatables/buttons.print.min.js}"	src="js/datatables/buttons.print.min.js"></script>
+
+	<!-- Custom Data tables -->
+	<!-- 	<script src="js/datatables/custom-datatables.js"></script> -->
+
+	<!-- D3 JS -->
+	<script th:src="@{./resources/static/js/d3/d3.min.js}"></script>
+	<!-- C3 JS -->
+	<script th:src="@{./resources/static/js/c3/c3.min.js}"></script>
+		
+
+	<a id="scrollUp" href="device.html#top"
+		style="position: fixed; z-index: 2147483647; display: none;"> <i
+		class="fa fa-chevron-up"></i>
+	</a>
+	<div class="jvectormap-label"></div>
+	<div id="ui-datepicker-div"
+		class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div>
+</body>
+</html>

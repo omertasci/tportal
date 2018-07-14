@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)http://bootstrap.gallery/everest-v3/components.html# -->
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org">
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+    <meta name="description" content="Everest Admin Panel"></meta>
+    <meta name="keywords"
+          content="Admin, Dashboard, Bootstrap3, Sass, transform, CSS3, HTML5, Web design, UI Design, Responsive Dashboard, Responsive Admin, Admin Theme, Best Admin UI, Bootstrap Theme, Wrapbootstrap, Bootstrap"></meta>
+    <meta name="author" content="Bootstrap Gallery"></meta>
+
+    <!-- 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <!-- 	    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>	 -->
+
+    <script th:src="@{./resources/static/js/jquery-1.10.2.min.js}"></script>
+    <script th:src="@{./resources/static/js/bootstrap.min.js}"></script>
+    <!-- Bootstrap CSS -->
+    <link th:href="@{./resources/static/css/bootstrap.min.css}" rel="stylesheet" media="screen"></link>
+
+    <link rel="shortcut icon" th:href="@{./resources/static/img/tor-icon.png}"></link>
+    <title>Triote IoT Panel</title>
+
+    <!-- 		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script> -->
+    <!--   		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css"></link> -->
+
+    <!-- Bootstrap Multiselect CSS -->
+    <script th:src="@{./resources/static/js/bootstrap-multiselect.js}"></script>
+    <link th:src="@{./resources/static/css/bootstrap-multiselect.css}" rel="stylesheet" media="screen"></link>
+
+    <!-- Animate CSS -->
+    <link th:href="@{./resources/static/css/animate.css}" rel="stylesheet" media="screen"></link>
+
+    <!-- Alertify CSS -->
+    <link th:href="@{./resources/static/css/alertify.core.css}" rel="stylesheet"></link>
+    <link th:href="@{./resources/static/css/alertify.default.css}" rel="stylesheet"></link>
+
+    <!-- Main CSS -->
+    <link th:href="@{./resources/static/css/main.css}" rel="stylesheet" media="screen"></link>
+
+    <!-- Slider CSS -->
+    <link th:href="@{./resources/static/css/slider.css}" rel="stylesheet"></link>
+
+    <!-- Font Awesome -->
+    <link th:href="@{./resources/static/css/font-awesome.min.css}" rel="stylesheet"></link>
+
+    <!-- Managemement Js -->
+    <script th:src="@{./resources/static/js/portaljs/manageUser.js}"></script>
+    <script th:src="@{/resources/pwstrength.js}"></script>
+    <script th:src="@{./resources/static/js/portaljs/leftMenu.js}"></script>
+
+    <!-- HTML5 shiv and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+
+    <style type="text/css">
+        .jqstooltip { position: absolute;left: 0px;top: 0px;visibility: hidden;background: rgb(0, 0, 0) transparent;background-color: rgba(0,0,0,0.6);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";color: white;font: 10px arial, san serif;text-align: left;white-space: nowrap;padding: 5px;border: 1px solid white;z-index: 10000;}.jqsfield { color: white;font: 10px arial, san serif;text-align: left;}
+
+    </style>
+</head>
+
+<body class="">
+<script th:inline="javascript">
+// <![CDATA[
+//       var error = [[${messageError}]];
+//       var info = [[${messageInfo}]];
+//       $(window).on("load", function() {
+//         if(error != null && error.length > 0){
+//     	  alertify.error(error);
+//         }
+//         if(info != null && info.length > 0){
+//     	  alertify.log(info);
+//         }
+//        });
+//  ]]>
+
+</script>
+
+<div th:include="leftMenu :: menuTemplate"></div>
+<!-- Header ends -->
+<!-- Dashboard Wrapper starts -->
+<div class="dashboard-wrapper">
+
+    <!-- Top Bar starts -->
+    <div class="top-bar">
+        <label th:text="#{label.user.panel.title}" class="page-title">
+            User Manegement Panel
+        </label>
+        <ul class="stats hidden-xs">
+
+        </ul>
+    </div>
+    <!-- Top Bar ends -->
+
+    <!-- Main Container starts -->
+    <div class="main-container">
+
+        <!-- Container fluid Starts -->
+        <div class="container-fluid">
+
+            <!-- Spacer Starts -->
+            <div class="spacer">
+
+                <!-- Row starts -->
+                <div class="row gutter">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="panel panel-light">
+                            <div class="panel-heading">
+                                <h4 th:text="#{label.user.panel.header}">User Operations</h4>
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table id="scrollTable"
+                                           class="display table table-striped table-bordered no-margin">
+                                        <thead>
+                                        <tr>
+                                            <th th:text="#{label.panel.body.header.definition}" class="col-lg-6 col-md-6 col-sx-12 col-sm-12">Definition</th>
+                                            <th th:text="#{label.panel.body.header.method}">Method</th>
+                                            <th th:text="#{label.panel.body.header.action}">Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td><label th:text="#{label.user.panel.body.definition}" class="col-lg-6 col-md-6 col-sx-12 col-sm-12" for="generateUserModalBtn">
+                                                Create New User</label></td>
+                                            <td th:text="#{label.user.panel.body.method}">createUser</td>
+                                            <td>
+                                                <button id="generateUserModalBtn" class="btn btn-success"
+                                                        data-toggle="modal" data-target="#generateUserModal"
+                                                        data-original-title="" title="" th:text="#{label.button.create.text}">Create
+                                                </button>
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="generateUserModal" tabindex="-1"
+                                                     role="dialog" aria-labelledby="myModalLabel5" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                        aria-hidden="true">×
+                                                                </button>
+                                                                <h4 th:text="#{label.user.modal.gen.title}" class="modal-title text-info" id="myModalLabel5">
+                                                                    Create User</h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <!-- content goes here -->
+                                                                <form action="/" method="POST" enctype="utf8">
+                                                                    <div class="form-group row">
+                                                                        <label class="col-sm-3"
+                                                                               th:text="#{label.user.firstName}">first</label>
+                                                                        <span class="col-sm-5"><input id="firstName"
+                                                                                                      class="form-control" name="firstName"
+                                                                                value="" required="required"/></span>
+                                                                        <span id="firstNameError"
+                                                                              class="alert alert-danger col-sm-4"
+                                                                              style="display:none"></span>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                        <label class="col-sm-3"
+                                                                               th:text="#{label.user.lastName}">last</label>
+                                                                        <span class="col-sm-5"><input id="lastName"
+                                                                                class="form-control" name="lastName"
+                                                                                value="" required="required"/></span>
+                                                                        <span id="lastNameError"
+                                                                              class="alert alert-danger col-sm-4"
+                                                                              style="display:none"></span>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                        <label class="col-sm-3"
+                                                                               th:text="#{label.user.email}">email</label>
+                                                                        <span class="col-sm-5"><input id="email" type="email"
+                                                                                                      class="form-control"
+                                                                                                      name="email"
+                                                                                                      value=""
+                                                                                                      required="required"/></span>
+                                                                        <span id="emailError"
+                                                                              class="alert alert-danger col-sm-4"
+                                                                              style="display:none"></span>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                        <label class="col-sm-3"
+                                                                               th:text="#{label.user.password}">password</label>
+                                                                        <span class="col-sm-5"><input id="password"
+                                                                                                      class="form-control"
+                                                                                                      name="password"
+                                                                                                      value=""
+                                                                                                      type="password"
+                                                                                                      required="required"/></span>
+                                                                        <span id="passwordError"
+                                                                              class="alert alert-danger col-sm-4"
+                                                                              style="display:none"></span>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                        <label class="col-sm-3"
+                                                                               th:text="#{label.user.confirmPass}">confirm</label>
+                                                                        <span class="col-sm-5"><input id="matchPassword"
+                                                                                                      class="form-control"
+                                                                                                      name="matchingPassword"
+                                                                                                      value=""
+                                                                                                      type="password"
+                                                                                                      required="required"/></span>
+                                                                        <span id="globalError"
+                                                                              class="alert alert-danger col-sm-4"
+                                                                              style="display:none"></span>
+                                                                    </div>
+                                                                    <div>
+                                                                        <label for="roleListC"
+                                                                               th:text="#{label.user.roles}">Roles:</label>
+                                                                        <select class="form-control" id="roleListC"
+                                                                                multiple="multiple">
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                        <label class="col-sm-5"
+                                                                               th:text="#{label.user.2fa}">Use Two Step
+                                                                            Verification</label>
+                                                                        <span class="col-sm-3"><input type="checkbox"
+                                                                                                      name="using2FA"/></span>
+                                                                    </div>
+                                                                    <br/>
+                                                                    <div class="modal-footer">
+                                                                        <button th:text="#{modal.button.close.text}" type="button" class="btn btn-danger"
+                                                                                data-dismiss="modal"
+                                                                                data-original-title="" title=""><i
+                                                                                class="fa fa-times"></i> Close
+                                                                        </button>
+                                                                        <button type="submit" class="btn btn-success"><i
+                                                                                class="fa fa-save"></i> Submit
+                                                                        </button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="panel-heading">
+                                <h4 th:text="#{label.user.panel.body}">User List</h4>
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table id="basicExample"
+                                           class="table table-striped table-condensed table-bordered no-margin">
+                                        <thead>
+                                        <tr>
+                                            <th th:text="#{label.user.username}">User Name</th>
+                                            <th th:text="#{label.user.email}">Email</th>
+                                            <th th:text="#{label.user.2fa}">Is Using 2fa</th>
+                                            <th th:text="#{label.user.enabled}">Enabled</th>
+                                            <th th:text="#{label.panel.body.header.action}">Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody th:each="user : ${userList}">
+                                        <tr>
+                                            <td th:text="${user.firstName}+' ' +${user.lastName}"></td>
+                                            <td th:text="${user.email}"></td>
+                                            <td th:text="#{${user.is2fa}}"></td>
+                                            <td th:text="#{${user.enabled}}" style="background-color: darkseagreen; text-align: center;" th:if="${user.enabled}"></td>
+                                            <td th:text="#{${user.enabled}}" style="background-color: burlywood; text-align: center;" th:unless="${user.enabled}"></td>
+                                            <td>
+                                                <button id="modalRoleBtn" class="btn btn-success"
+                                                        data-target="#modalRoleChange" data-original-title="" title=""
+                                                        th:attr="data-object-id=''+${user.id}+'',
+                                                        data-object-firstname=''+${user.firstName}+'',
+                                                        data-object-lastname=''+${user.lastName}+'',
+                                                        data-object-enabled=''+${user.enabled}+'',
+                                                        data-object-is2fa=''+${user.is2fa}+'',
+                                                        data-object-roles=''+${user.userRoles}+''">
+                                                    Update
+                                                </button>
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="modalRoleChange" tabindex="-1" role="dialog"
+                                                     aria-labelledby="myModalLabel5" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                        aria-hidden="true">×
+                                                                </button>
+                                                                <h4 th:text="#{label.user.modal.update.title}" class="modal-title text-info" id="myModalLabel5">
+                                                                    Update User</h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <!-- content goes here -->
+                                                                <form>
+                                                                    <div style="display: none;" class="form-group">
+                                                                        <label for="userIdU">User Id:</label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="userIdU"></input>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label th:text="#{label.user.firstName}" for="firstNameU">Firstname:</label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="firstNameU"></input>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label th:text="#{label.user.lastName}" for="lastNameU">Lastname:</label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="lastNameU"></input>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label th:text="#{label.user.enabled}" for="enabledU">Enabled:</label>
+                                                                        <input type="text" class="form-control" disabled="true" id="enabledU"></input>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                        <label th:text="#{label.user.2fa}" for="is2faU" class="col-sm-3">Is Using 2fa:</label>
+                                                                        <span class="col-sm-5"><input type="checkbox" id="is2faU"></input></span>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-xs-5">
+                                                                            <label th:text="#{label.user.fullRoleList}" for="roleList_U">Full Role List:</label>
+                                                                            <select id="roleList_U" name="from[]" class="multiselect form-control" size="8" multiple="multiple" data-right="#multiselect_to_1_U" data-right-all="#right_All_1_U" data-right-selected="#right_Selected_1_U" data-left-all="#left_All_1_U" data-left-selected="#left_Selected_1_U">
+                                                                            </select>
+                                                                        </div>
+                                                                        <div class="col-xs-2">
+                                                                            <label for="right_All_1_U"></label>
+                                                                            <button type="button" id="right_All_1_U" class="btn btn-block"><i class="glyphicon glyphicon-forward"></i></button>
+                                                                            <button type="button" id="right_Selected_1_U" class="btn btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                                                                            <button type="button" id="left_Selected_1_U" class="btn btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                                                                            <button type="button" id="left_All_1_U" class="btn btn-block"><i class="glyphicon glyphicon-backward"></i></button>
+                                                                        </div>
+                                                                        <div class="col-xs-5">
+                                                                            <label th:text="#{label.user.selectedRoleList}" for="multiselect_to_1_U">Selected Role List:</label>
+                                                                            <select name="to[]" id="multiselect_to_1_U" class="form-control" size="8" multiple="multiple" required="required"></select>
+                                                                            <span id="multiselect_to_1_UError"
+                                                                                  class="alert alert-danger col-sm-8"
+                                                                                  style="display:none"></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button th:text="#{modal.button.close.text}" type="button" class="btn btn-danger"
+                                                                        data-dismiss="modal" data-original-title=""
+                                                                        title=""><i class="fa fa-times"></i> Close
+                                                                </button>
+                                                                <button id="updateUser" type="button"
+                                                                        class="btn btn-success fa fa-save" data-original-title=""
+                                                                        title=""><i class="fa fa-save"></i> Save Changes
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- Spacer Ends -->
+
+        </div>
+        <!-- Container fluid ends -->
+
+    </div>
+    <!-- Main Container ends -->
+
+    <!-- Footer starts -->
+    <footer>
+        Copyright Triote IoT Panel 2017.
+    </footer>
+    <!-- Footer ends -->
+
+</div>
+<!-- Dashboard Wrapper ends -->
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<!-- 		<script th:src="@{./resources/static/downloadjs/jquery.js.download}">
+</script>
+-->
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<!-- 		<script th:src="@{./resources/static/downloadjs/bootstrap.min.js.download}"></script> -->
+
+<!-- Verimail Js -->
+<script th:src="@{./resources/static/js/verimail.jquery.js}"></script>
+
+<!-- Sparkline graphs -->
+<script th:src="@{./resources/static/downloadjs/sparkline.js.download}"></script>
+
+<!-- jquery ScrollUp JS -->
+<script th:src="@{./resources/static/downloadjs/jquery.scrollUp.js.download}"></script>
+
+<!-- Sliders JS -->
+<script th:src="@{./resources/static/downloadjs/bootstrap-slider.js.download}"></script>
+
+<!-- Notifications JS -->
+<script th:src="@{./resources/static/js/alertify.js}"></script>
+<script th:src="@{./resources/static/js/alertify-custom.js}"></script>
+
+<!-- Custom Index -->
+<script th:src="@{./resources/static/downloadjs/custom.js.download}"></script>
+<script th:src="@{./resources/static/downloadjs/custom-components.js.download}"></script>
+
+<script th:src="@{./resources/static/js/multiselect.min.js}"></script>
+
+<a id="scrollUp" href="manageUser.html#top" style="position: fixed; z-index: 2147483647;" data-original-title=""
+   title=""><i class="fa fa-chevron-up"></i></a>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spring Boot example</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h3>Spring Boot forms</h3>
+<form action="/" th:action="@{/app/incse/gelAllContent}" method="post">
+    <table>
+        <tr>
+            <td>Result Content Id:</td>
+            <td><input type="text" th:name="rcn" th:value="5"/></td>
+        </tr>
+        <tr>
+            <td><button type="submit">Submit post</button></td>
+        </tr>
+    </table>
+</form>
+
+
+<h1>Result</h1>
+<p th:text="${message != null} ? 'Status : ' + ${message} : 'Status is null'" />
+
+<p th:text="${result != null} ? 'Result : ' + ${result} : 'Result is null'" />
+
+</body>
+</html>

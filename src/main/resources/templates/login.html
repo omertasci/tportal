@@ -1,0 +1,115 @@
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:spring="http://www.springframework.org/tags">
+<head>
+    <!-- <meta charset="utf-8"/> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
+    <!-- Main CSS -->
+    <link th:href="@{./resources/static/css/login.css}" rel="stylesheet" media="screen"></link>
+    <!-- Management Js -->
+    <script th:src="@{./resources/static/js/portaljs/login.js}"></script>
+    <title th:text="#{label.pages.home.title}">Title</title>
+    <script th:inline="javascript">
+/*<![CDATA[*/
+    function validate() {
+        if (document.f.username.value == "" && document.f.password.value == "") {
+            alert(/*[[#{message.username} +' '+ #{message.password}]]*/);
+            document.f.username.focus();
+            return false;
+        }
+        if (document.f.username.value == "") {
+            alert(/*[[#{message.username}]]*/);
+            document.f.username.focus();
+            return false;
+        }
+        if (document.f.password.value == "") {
+            alert(/*[[#{message.password}]]*/);
+            document.f.password.focus();
+            return false;
+        }
+    }
+/*]]>*/ 
+
+    </script>
+    <style type="text/css">
+.wrapper{width:500px;margin-left:auto;margin-right:auto}
+label{padding-left:0 !important}
+    </style>
+</head>
+<body>
+<div th:if="${param.message != null}" class="alert alert-info" th:text="${param.message[0]}">message</div>
+
+<div th:if="${param.error != null}" class="alert alert-danger" th:text="${session[SPRING_SECURITY_LAST_EXCEPTION]}">
+    error
+</div>
+
+<div th:if="${session[SPRING_SECURITY_403_EXCEPTION] != null}" class="alert alert-danger" th:text="${session[SPRING_SECURITY_403_EXCEPTION]}">
+   connection error
+</div>
+
+<div class="login">
+    <h1 th:text="#{label.form.loginTitle}" style="text-align: center;">Header</h1>
+    <p th:text="#{label.form.loginparagraph}" style="color:#FFFFFF; text-align: center;">Sign into your pages account</p>
+    <br/>
+    <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+        <a href="?lang=en" class="btn btn-secondary" th:text="#{label.form.loginEnglish}"
+           style="color:#FFFFFF">login</a>
+    </div>
+    <br/><br/>
+
+    <form name='f' action="login" method='POST' onsubmit="return validate();">
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon"> <span class="glyphicon glyphicon-envelope"></span> </span>
+                <input th:value="${session.userDetails != null} ? ${session.userDetails.user_email}" th:disabled="${not #lists.isEmpty(session.userDetails)}" class="form-control" type='text' name='username' value='' placeholder="Email"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                <input th:disabled="${not #lists.isEmpty(session.userDetails)}" class="form-control" type='password' name='password' placeholder="Password"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                <input th:disabled="${not #lists.isEmpty(session.userDetails)}" class="form-control" type='text' name='code'
+                       placeholder="Google Authenticator Verification Code"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <input th:disabled="${not #lists.isEmpty(session.userDetails)}" class="btn btn-primary btn-block btn-large" name="submit" type="submit"
+                   th:value="#{label.form.submit}"/>
+        </div>
+    </form>
+    <form th:unless="${#lists.isEmpty(session.userDetails)}" th:action="@{/loginCompleted}" method="post">
+        <div class="form-group">
+            <select class="form-control" id="company" name='company'>
+                <option th:each="type : ${session.userDetails.companylist}"
+                        th:value="${type.company_id +';' + type.company_name+';'+type.company_code}"
+                        th:text="${type.company_name}"> </option>
+            </select>
+        </div>
+        <div class="form-group">
+            <input class="btn btn-primary btn-block btn-large" name="validate" type="submit"
+                   th:value="#{label.form.validate}"/>
+        </div>
+    </form>
+
+    <!--              <a class="btn btn-default" th:href="@{/registration.html}" th:text="#{label.form.loginSignUp}">signup</a> -->
+    <!--              <br/> -->
+    <!--              <a class="btn btn-default" th:href="@{/registrationCaptcha.html}" th:text="#{label.form.loginSignUpCaptcha}">captcha signup</a> -->
+    <div align="center">
+        <a class="medium strong" style="float:left; color:#FFFFFF;" th:href="@{/forgetPassword.html}"
+           th:text="#{message.resetPassword}">reset</a>
+        <a th:unless="${#lists.isEmpty(session.userDetails)}" class="medium strong" style="float:right; color:#FFFFFF;" th:href="@{/logout}"
+           th:text="#{message.changeUser}">Change User</a>
+    </div>
+    <br/>
+</div>
+</body>
+
+</html>

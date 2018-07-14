@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)http://bootstrap.gallery/everest-v3/components.html# -->
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org">
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+    <meta name="description" content="Everest Admin Panel"></meta>
+    <meta name="keywords"
+          content="Admin, Dashboard, Bootstrap3, Sass, transform, CSS3, HTML5, Web design, UI Design, Responsive Dashboard, Responsive Admin, Admin Theme, Best Admin UI, Bootstrap Theme, Wrapbootstrap, Bootstrap"></meta>
+    <meta name="author" content="Bootstrap Gallery"></meta>
+
+    <!-- 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <!-- 	    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>	 -->
+
+    <script th:src="@{./resources/static/js/jquery-1.10.2.min.js}"></script>
+    <script th:src="@{./resources/static/js/jquery.js}"></script>
+    <script th:src="@{./resources/static/js/bootstrap.min.js}"></script>
+
+    <!--     Bootstrap CSS -->
+    <link th:href="@{./resources/static/css/bootstrap.min.css}" rel="stylesheet" media="screen"></link>
+
+    <link rel="shortcut icon" th:href="@{./resources/static/img/tor-icon.png}"></link>
+    <title>Triote IoT Panel</title>
+
+
+    <!-- Animate CSS -->
+    <link th:href="@{./resources/static/css/animate.css}" rel="stylesheet" media="screen"></link>
+
+    <!-- Alertify CSS -->
+    <link th:href="@{./resources/static/css/alertify.core.css}" rel="stylesheet"></link>
+    <link th:href="@{./resources/static/css/alertify.default.css}" rel="stylesheet"></link>
+
+    <!-- Main CSS -->
+    <link th:href="@{./resources/static/css/main.css}" rel="stylesheet" media="screen"></link>
+
+    <!-- Slider CSS -->
+    <link th:href="@{./resources/static/css/slider.css}" rel="stylesheet"></link>
+
+    <!-- Font Awesome -->
+    <link th:href="@{./resources/static/css/font-awesome.min.css}" rel="stylesheet"></link>
+
+    <!-- Datatable CSS -->
+<!--     <link th:href="@{./resources/static/css/jquery.dataTables.min.css}" type="text/css" rel="stylesheet"></link> -->
+		<link th:href="@{./resources/static/css/dataTables.bs.min.css}" type="text/css" rel="stylesheet"></link>
+		<link th:href="@{./resources/static/css/autoFill.bs.min.css}" type="text/css" rel="stylesheet"></link>
+		<link th:href="@{./resources/static/css/fixedHeader.bs.css}" type="text/css" rel="stylesheet"></link>
+		<link th:href="@{./resources/static/css/buttons.bs.css}" type="text/css" rel="stylesheet"></link>
+
+
+    <!-- ManagemeCseState Js -->
+    <script th:src="@{./resources/static/js/portaljs/manageCseState.js}"></script>
+	<script th:src="@{./resources/static/js/portaljs/leftMenu.js}"></script>
+	
+    <!-- Managemement Js -->
+    <!-- 		<script th:src="@{./resources/static/js/portaljs/management.js}"></script> -->
+
+    <!-- HTML5 shiv and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+
+    <style type="text/css">
+        .jqstooltip { position: absolute;left: 0px;top: 0px;visibility: hidden;background: rgb(0, 0, 0) transparent;background-color: rgba(0,0,0,0.6);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";color: white;font: 10px arial, san serif;text-align: left;white-space: nowrap;padding: 5px;border: 1px solid white;z-index: 10000;}.jqsfield { color: white;font: 10px arial, san serif;text-align: left;}
+    </style>
+</head>
+
+<body class="">
+<script th:inline="javascript">
+// <![CDATA[
+      var error = [[${messageError}]];
+      var info = [[${messageSuccess}]];
+      $(window).on("load", function() {
+        if(error != null && error.length > 0){
+    	  alertify.error(error);
+        }
+        if(info != null && info.length > 0){
+    	  alertify.success(info);
+        }
+       });
+//  ]]>
+
+</script>
+<script th:inline="javascript">
+		// <![CDATA[
+
+		            var cseStateList = [[${cseStateList}]];  
+		            
+		//  ]]>
+	</script>
+	
+<div th:include="leftMenu :: menuTemplate"></div>
+<!-- Left sidebar ends -->
+
+<!-- Dashboard Wrapper starts -->
+<div class="dashboard-wrapper">
+
+    <!-- Top Bar starts -->
+    <div class="top-bar">
+        <div class="page-title">
+            CSEState Manegement Panel
+        </div>
+        <ul class="stats hidden-xs">
+
+        </ul>
+    </div>
+    <!-- Top Bar ends -->
+
+    <!-- Main Container starts -->
+    <div class="main-container">
+
+        <!-- Container fluid Starts -->
+        <div class="container-fluid">
+
+            <!-- Spacer Starts -->
+            <div class="spacer">
+
+                <!-- Row starts -->
+                <div class="row gutter">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="panel panel-light">
+                            <div class="panel-heading">
+                                <h4>Gateways Devices</h4>
+                            </div>
+                            <div class="panel-body"
+                                 sec:authorize="hasAuthority('CREATE_CSESTATE') or  #strings.contains(#authentication.principal.roles,'SUPERADMIN')">
+                                <div class="table-responsive">
+                                    <table id="scrollTable"
+                                           class="display table table-striped table-bordered no-margin">
+                                        <thead>
+                                        <tr>
+                                            <th class="col-lg-6 col-md-6 col-sx-12 col-sm-12">Definition</th>
+                                            <th>Method</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td><label class="col-lg-6 col-md-6 col-sx-12 col-sm-12" for="modalBtn">Generate
+                                                new CSE State Entity </label></td>
+                                            <td>generateCSEStateEntity</td>
+                                            <td>
+                                                <button id="generateModalBtn" class="btn btn-success"
+                                                        data-toggle="modal" data-target="#generateModal"
+                                                        data-original-title="" title="">Generate
+                                                </button>
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="generateModal" tabindex="-1" role="dialog"
+                                                     aria-labelledby="myModalLabel5" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                        aria-hidden="true">×
+                                                                </button>
+                                                                <h4 class="modal-title text-info" id="myModalLabel5">
+                                                                    Generate CSEStateEntity</h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <!-- content goes here -->
+                                                                <form>
+                                                                    <div class="form-group">
+                                                                        <label for="count">Count:</label>
+                                                                        <input type="number" class="form-control"
+                                                                               id="count"
+                                                                               placeholder="Enter count"></input>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="company">Company:</label>
+                                                                        <select class="form-control" id="company">
+                                                                        </select>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-danger"
+                                                                        data-dismiss="modal" data-original-title=""
+                                                                        title=""><i class="fa fa-times"></i> Close
+                                                                </button>
+                                                                <button id="generate" type="button"
+                                                                        class="btn btn-success" data-original-title=""
+                                                                        title=""><i class="fa fa-save"></i> Generate
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                            
+                            <!-- Row starts -->
+                            <div class="row gutter">
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<div class="panel panel-light">
+									<div class="panel-heading">
+										<h4>CSEStates</h4>
+									</div>
+									<div class="panel-body">
+										<div class="table-responsive">
+											<div id="copy-print-csv_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+											<div class="dt-buttons">
+											
+											</div>
+											<div id="copy-print-csv_filter" class="dataTables_filter">
+												
+											</div>
+											<table id="cseStateTbl" class="display table table-striped table-bordered no-margin dataTable" role="grid" aria-describedby="cseStateTbl_info">
+											  <thead>
+											    <tr role="row">
+												    <th class="sorting_asc" tabindex="0" aria-controls="cseStateTbl" rowspan="1" colspan="1" aria-label="State ID: activate to sort column ascending" style="width: 266px;">State ID</th>
+												    <th class="sorting" tabindex="0" aria-controls="cseStateTbl" rowspan="1" colspan="1" aria-label="CSE ID: activate to sort column ascending" style="width: 121px;">CSE ID</th>
+												    <th class="sorting" tabindex="0" aria-controls="cseStateTbl" rowspan="1" colspan="1" aria-label="CSE State Name: activate to sort column ascending" style="width: 66px;">CSE State Name</th>
+											  		<th class="sorting_asc" tabindex="0" aria-controls="cseStateTbl" rowspan="1" colspan="1" aria-label="Create Date: activate to sort column ascending" style="width: 266px;">Create Date</th>
+												    <th class="sorting" tabindex="0" aria-controls="cseStateTbl" rowspan="1" colspan="1" aria-label="Update Date: activate to sort column ascending" style="width: 121px;">Update Date</th>
+												    <th class="sorting" tabindex="0" aria-controls="cseStateTbl" rowspan="1" colspan="1" aria-label="Created By User ID: activate to sort column ascending" style="width: 66px;">Created By User ID</th>
+												    <th class="sorting" tabindex="0" aria-controls="cseStateTbl" rowspan="1" colspan="1" aria-label="Updated By User ID: activate to sort column ascending" style="width: 66px;">Updated By User ID</th>
+											  		<th class="sorting" tabindex="0" aria-controls="cseStateTbl" rowspan="1" colspan="1" aria-label="Action: activate to sort column ascending" style="width: 66px;">Action</th>
+											  	</tr>
+											  </thead>
+											  <tfoot>
+											    <tr>
+												    <th rowspan="1" colspan="1">State ID</th>												    
+						                          	<th rowspan="1" colspan="1">CSE ID</th>						                          	
+						                          	<th rowspan="1" colspan="1">CSE State Name</th>						                          	
+						                          	<th rowspan="1" colspan="1">Create Date</th>
+						                          	<th rowspan="1" colspan="1">Update Date</th>
+						                          	<th rowspan="1" colspan="1">Created By User ID</th>
+						                          	<th rowspan="1" colspan="1">Updated By User ID</th>
+						                          	<th rowspan="1" colspan="1">Action</th>
+						                          	
+											    </tr>
+											  </tfoot>
+											  
+											</table>
+											<div class="dataTables_paginate paging_simple_numbers" id="cseStateTbl_paginate">
+											</div></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- Row ends -->
+                            
+                            
+                            
+                            
+                            <!-- Row starts -->
+                            <!-- Row starts -->
+                            <div class="row gutter">
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<div class="panel panel-light">
+									<div class="panel-heading">
+										<h4>CSEStates by Histories</h4>
+									</div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table id="basicExample"
+                                           class="table table-striped table-condensed table-bordered no-margin">
+                                        <thead>
+                                        <tr>
+                                        	<th></th>
+                                            <th>State ID</th>
+                                            <th>CSE ID</th>
+                                            <th>CSE State Name</th>
+                                            <th>Create Date</th>
+                                            <th>Update Date</th>
+                                            <th>Created By User ID</th>
+                                            <th>Updated By User ID</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody th:each="cseState : ${cseStateList}">
+                                        <tr >
+                                        
+                                        	<td th:attr="data-target=''+${'#'+cseState.si}+''" data-toggle="collapse" class="accordion-toggle"><i class="fa fa-plus-square detail-fa-plus-icon" aria-hidden="true"></i></td>
+                                            <td th:text="${cseState.si}"></td>
+                                            <td id="csestateID" th:text="${cseState.csi}"></td>
+                                            <td th:text="${cseState.sn}"></td>
+                                            <td th:text="${cseState.create_date}"></td>
+                                            <td th:text="${cseState.update_date}"></td>
+                                            <td th:text="${cseState.createdBy}"></td>
+                                            <td th:text="${cseState.updatedBy}"></td>
+                                            <td>
+                                                <button id="generateCSESModalBtn" class="btn btn-success"
+                                                        data-toggle="modal" data-target="#modalCSEStateChange"
+                                                        data-original-title="" title=""
+                                                        th:attr="data-object-si=''+${cseState.si}+'', data-object-csi=''+${cseState.csi}+''"
+                                                        sec:authorize="hasAuthority('EDIT_CSESTATE') or  #strings.contains(#authentication.principal.roles,'SUPERADMIN')">
+                                                    Update
+                                                </button>
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="modalCSEStateChange" tabindex="-1"
+                                                     role="dialog" aria-labelledby="myModalLabel5" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                        aria-hidden="true">×
+                                                                </button>
+                                                                <h4 class="modal-title text-info" id="myModalLabel5">
+                                                                    Update CSEStateEntity</h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <!-- content goes here -->
+                                                                <form>
+                                                                    <div class="form-group">
+                                                                        <label for="cseStateIdU">CSEState Id:</label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="cseStateIdU" disabled="true"></input>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="csiU">CSEState CSE_ID:</label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="csiU" disabled="true"></input>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="cseStateName">State Name:</label>
+                                                                        <select class="form-control" id="cseStateName">
+                                                                        </select>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-danger"
+                                                                        data-dismiss="modal" data-original-title=""
+                                                                        title=""><i class="fa fa-times"></i> Close
+                                                                </button>
+                                                                <button id="updateCSEState" type="button"
+                                                                        class="btn btn-success" data-original-title=""
+                                                                        title=""><i class="fa fa-save"></i> Update
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+
+                                        </tr>
+                                        
+                                        <tr>
+								            <td colspan="6" class="hiddenRow"><div class="accordian-body collapse" th:id="${cseState.si}"  th:if="${cseState.histList != null}" > 
+								            <table  id="desc0" >
+								                <thead>
+												  <tr>
+													<th>State ID</th>
+		                                            <th>CSE ID</th>
+		                                            <th>CSE State Name</th>
+		                                            <th>Create Date</th>
+		                                            <th>Update Date</th>
+		                                            <th>Created By User ID</th>
+		                                            <th>Updated By User ID</th>
+												  </tr>
+												</thead>
+													<tbody th:each="cseStateHist : ${cseState.histList}" >
+														<tr>
+															<td th:text="${cseStateHist.si_hist}"></td>
+				                                            <td id="csestatehistID" th:text="${cseStateHist.csi_hist}"></td>
+				                                            <td th:text="${cseStateHist.sn_hist}"></td>
+				                                            <td th:text="${cseStateHist.create_date_hist}"></td>
+				                                            <td th:text="${cseStateHist.update_date_hist}"></td>
+				                                            <td th:text="${cseStateHist.createdBy_hist}"></td>
+				                                            <td th:text="${cseStateHist.updatedBy_hist}"></td>
+														</tr>
+													</tbody>
+												</table> </div> 
+											</td>
+								        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>                            
+                            </div>                            
+                            </div>                            
+                            </div>
+                            <!-- Row ends -->
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Spacer Ends -->
+
+        </div>
+        <!-- Container fluid ends -->
+
+    </div>
+    <!-- Main Container ends -->
+
+    <!-- Footer starts -->
+    <footer>
+        Copyright Triote IoT Panel 2017.
+    </footer>
+    <!-- Footer ends -->
+
+</div>
+<!-- Dashboard Wrapper ends -->
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<!-- <script th:src="@{./resources/static/downloadjs/jquery.js}"></script> -->
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<!-- <script th:src="@{./resources/static/downloadjs/bootstrap.min.js.download}"></script> -->
+
+<!-- Sparkline graphs -->
+<script th:src="@{./resources/static/downloadjs/sparkline.js.download}"></script>
+
+<!-- jquery ScrollUp JS -->
+<script th:src="@{./resources/static/downloadjs/jquery.scrollUp.js.download}"></script>
+
+<!-- Sliders JS -->
+<script th:src="@{./resources/static/downloadjs/bootstrap-slider.js.download}"></script>
+
+<!-- Notifications JS -->
+<script th:src="@{./resources/static/js/alertify.js}"></script>
+<script th:src="@{./resources/static/js/alertify-custom.js}"></script>
+
+<!-- Custom Index -->
+<script th:src="@{./resources/static/downloadjs/custom.js.download}"></script>
+<script th:src="@{./resources/static/downloadjs/custom-components.js.download}"></script>
+
+<!-- JQuery Datatable JS (required for datatables)-->
+<!-- <script th:src="@{./resources/static/js/jquery.dataTables.min.js}"></script> -->
+
+<!-- Data Tables -->
+		<script th:src="@{./resources/static/js/datatables/dataTables.min.js}" src="js/datatables/dataTables.min.js"></script>
+		<script th:src="@{./resources/static/js/datatables/dataTables.bootstrap.min.js}" src="js/datatables/dataTables.bootstrap.min.js"></script>
+		<script th:src="@{./resources/static/js/datatables/dataTables.tableTools.js}" src="js/datatables/dataTables.tableTools.js"></script>
+		<script th:src="@{./resources/static/js/datatables/autoFill.min.js}" src="js/datatables/autoFill.min.js"></script>
+		<script th:src="@{./resources/static/js/datatables/autoFill.bootstrap.min.js}" src="js/datatables/autoFill.bootstrap.min.js"></script>
+		<script th:src="@{./resources/static/js/datatables/fixedHeader.min.js}" src="js/datatables/fixedHeader.min.js"></script>
+	
+		<!-- Download / CSV / Copy / Print -->
+		<script th:src="@{./resources/static/js/datatables/buttons.min.js}" src="js/datatables/buttons.min.js"></script>
+		<script th:src="@{./resources/static/js/datatables/flash.min.js}" src="js/datatables/flash.min.js"></script>
+		<script th:src="@{./resources/static/js/datatables/jszip.min.js}" src="js/datatables/jszip.min.js"></script>
+		<script th:src="@{./resources/static/js/datatables/pdfmake.min.js}" src="js/datatables/pdfmake.min.js"></script>
+		<script th:src="@{./resources/static/js/datatables/vfs_fonts.js}" src="js/datatables/vfs_fonts.js"></script>
+		<script th:src="@{./resources/static/js/datatables/html5.min.js}"  src="js/datatables/html5.min.js"></script>
+		<script th:src="@{./resources/static/js/datatables/buttons.print.min.js}" src="js/datatables/buttons.print.min.js"></script>
+
+
+<a id="scrollUp" href="manageCSEState.html#top" style="position: fixed; z-index: 2147483647;" data-original-title="" title=""><i
+        class="fa fa-chevron-up"></i></a></body>
+</html>

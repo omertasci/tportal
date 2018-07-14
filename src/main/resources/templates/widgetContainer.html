@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)http://bootstrap.gallery/everest-v3/components.html# -->
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org">
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+    <meta name="description" content="Everest Admin Panel"></meta>
+    <meta name="keywords"
+          content="Admin, Dashboard, Bootstrap3, Sass, transform, CSS3, HTML5, Web design, UI Design, Responsive Dashboard, Responsive Admin, Admin Theme, Best Admin UI, Bootstrap Theme, Wrapbootstrap, Bootstrap"></meta>
+    <meta name="author" content="Bootstrap Gallery"></meta>  
+    
+     <title>Triote IoT Panel</title> 
+   
+	<script th:src="@{./resources/static/js/jquery-1.10.2.min.js}"></script>
+	
+	<!-- jQuery UI JS  (Declare this before bootstrap.js)-->
+	<script th:src="@{./resources/static/js/jquery-ui-v1.10.3.js}"></script>
+	<!-- Bootstrap CSS -->
+    <link th:href="@{./resources/static/css/bootstrap.min.css}" rel="stylesheet" media="screen"></link>
+	<script th:src="@{./resources/static/js/bootstrap.min.js}"></script>
+	
+	<link rel="shortcut icon" th:href="@{./resources/static/img/tor-icon.png}"></link>   
+
+ 	<!-- Bootstrap Datetimepicker -->
+ 	<link th:href="@{./resources/static/css/bootstrap-datetimepicker.min.css}" rel="stylesheet" media="screen"></link>
+ 	<script th:src="@{./resources/static/js/moment.js}"></script>
+	<script th:src="@{./resources/static/js/bootstrap-datetimepicker.min.js}"></script> 
+
+    <!-- Bootstrap Multiselect CSS -->    
+     <link th:src="@{./resources/static/css/bootstrap-multiselect.css}" rel="stylesheet" media="screen"></link>
+    <script th:src="@{./resources/static/js/bootstrap-multiselect.js}"></script>   
+
+    <!-- Animate CSS -->
+    <link th:href="@{./resources/static/css/animate.css}" rel="stylesheet" media="screen"></link>
+    
+    <!-- Alertify CSS -->
+		<link th:href="@{./resources/static/css/alertify.core.css}"	rel="stylesheet"></link>
+		<link th:href="@{./resources/static/css/alertify.default.css}"	rel="stylesheet"></link>
+
+    <!-- Main CSS -->
+    <link th:href="@{./resources/static/css/main.css}" rel="stylesheet" media="screen"></link>
+
+    <!-- Slider CSS -->
+    <link th:href="@{./resources/static/css/slider.css}" rel="stylesheet"></link>
+
+    <!-- Font Awesome -->
+    <link th:href="@{./resources/static/css/font-awesome.min.css}" rel="stylesheet"></link>
+
+	<!-- Datatable CSS -->
+	<!--     <link th:href="@{./resources/static/css/jquery.dataTables.min.css}" type="text/css" rel="stylesheet"></link> -->
+	<link th:href="@{./resources/static/css/dataTables.bs.min.css}" type="text/css" rel="stylesheet"></link>
+	<link th:href="@{./resources/static/css/autoFill.bs.min.css}" type="text/css" rel="stylesheet"></link>
+	<link th:href="@{./resources/static/css/fixedHeader.bs.css}" type="text/css" rel="stylesheet"></link>
+	<link th:href="@{./resources/static/css/buttons.bs.css}" type="text/css" rel="stylesheet"></link>
+
+	<!-- Gridster -->
+<!-- 	<link src="https://cdnjs.cloudflare.com/ajax/libs/jquery.gridster/0.5.6/jquery.gridster.min.css"></link> -->
+	<link th:href="@{./resources/static/css/gridster/jquery.gridster.min.css}" type="text/css" rel="stylesheet"></link>
+    <script th:src="@{./resources/static/js/gridster/jquery.gridster.min.js}"></script>
+    
+    <!-- 		Highcharts  -->
+	<script th:src="@{./resources/static/js/highcharts/highcharts.js}" ></script>
+	<script th:src="@{./resources/static/js/highcharts/exporting.js}"></script>
+	
+    <!-- Portal Docs -->
+    <link th:href="@{./resources/static/css/portalcss/widget.css}" rel="stylesheet" media="screen"></link>
+    <script th:src="@{./resources/static/js/portaljs/leftMenu.js}"></script>
+    <script th:src="@{./resources/static/js/portaljs/widgetContainer.js}"></script>
+   
+
+		<style type="text/css">
+			.gridster li
+			{
+				border-width:1px;
+			}
+			.yellow{background: yellow}
+			.orange{background: orange}
+		</style>
+
+											
+<script type="text/javascript">
+		var $scope = {};
+        var gridster = null;
+        $(document).ready(function () {
+            gridster = $(".gridster ul").gridster({
+                widget_base_dimensions: ['auto', 140],
+                autogenerate_stylesheet: true,
+                min_cols: 1,
+                max_cols: 6,
+                widget_margins: [5, 5],
+                avoid_overlapped_widgets: true,
+                resize: {
+                    enabled: true,
+                    start: function (e, ui, $widget) {
+                        console.log("Resize start.");
+                    },
+                    stop: function (e, ui, $widget) {
+                        var newHeight = this.resize_coords.data.height - 22;
+                        var newWidth = this.resize_coords.data.width;
+                        
+                     	var a = $widget[0]; 
+                		var d = $(a).find('div.chartPanel');   
+                		
+                		var chartPanelIdStr = "#" + $(d).attr('id');
+                		var chartObj = $(chartPanelIdStr).highcharts();
+                		
+                		chartObj.setSize((newWidth), (newHeight));
+                		chartObj.reflow();
+                		
+                		 console.log("Resize successful with " + "newWidth: "+ newWidth + ", newHeight:"+ newHeight);
+                    }
+                }
+            }).data('gridster');
+            $('.gridster  ul').css({'padding': '0'});
+            
+            loadDashboard(gridster);
+        });
+    </script>
+</head>
+
+<body class="">
+
+<script th:inline="javascript">
+		// <![CDATA[
+		            
+		      var dashboard = [[${dashboard}]];
+		      
+		//  ]]>
+	</script>
+	
+<div th:include="leftMenu :: menuTemplate"></div>
+
+<!-- Left sidebar ends -->
+
+<!-- Dashboard Wrapper starts -->
+<div class="dashboard-wrapper">
+
+    <!-- Top Bar starts -->
+    <div class="top-bar">
+        <div class="page-title">
+            Widget Management Panel
+        </div>
+        <ul class="stats hidden-xs">
+
+        </ul>
+    </div>
+    <!-- Top Bar ends -->
+
+    <!-- Main Container starts -->
+    <div class="main-container">
+
+        <!-- Container fluid Starts -->
+        <div class="container-fluid">
+
+            <!-- Spacer Starts -->
+            <div class="spacer">
+               
+                
+                <!-- Row starts -->
+                            <div class="row gutter">
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<div class="panel panel-light">
+									<div class="panel-heading">
+										<h4>Widget Elements</h4>
+									</div>
+									<div class="panel-body">
+										<div class="table-responsive">
+											<div id="copy-print-csv_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+											<div class="dt-buttons">
+											
+											</div>
+											<div id="copy-print-csv_filter" class="dataTables_filter">
+												
+											</div>		
+											
+										<table id="scrollTable"
+											class="display table table-striped table-bordered no-margin">
+											<thead>
+												<tr>
+													<th class="">Operation</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td style="float: right;">
+														<button id="addWidgetBtn"
+															class="btn btn-success" data-toggle=""
+															data-target="" data-original-title=""
+															title="">Create new Widget</button>	
+															
+															<button id="removeWidgetBtn"
+															class="btn btn-danger" data-toggle=""
+															data-target="" data-original-title=""
+															title="">Remove All</button>
+															
+															<button id="saveDashboardBtn"
+															class="btn btn-info" data-toggle=""
+															data-target="" data-original-title=""
+															title="">Save Dashboard</button></td>															
+																						
+												</tr>
+											</tbody>
+										</table>
+										</div>										
+										</div>
+										<div class="table-responsive">
+											<div class="gridster ready" height="800px">
+												<ul>
+																														
+												</ul>
+											
+											</div>
+										</div>
+									</div>
+									
+									<div id ="kibanaPanel"></div>
+								</div>
+							</div>
+						</div>
+						<!-- Row ends -->
+                
+                
+
+            </div>
+            <!-- Spacer Ends -->
+
+        </div>
+        <!-- Container fluid ends -->
+
+    </div>
+    <!-- Main Container ends -->
+
+    <!-- Footer starts -->
+    <footer>
+        Copyright Triote IoT Panel 2017.
+    </footer>
+    <!-- Footer ends -->
+
+</div>
+<!-- Dashboard Wrapper ends -->
+
+
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<!-- 	bootstrap.min.js.download is required to run bootstrap modal properly -->
+
+	<!-- Sparkline graphs -->
+	<script th:src="@{./resources/static/downloadjs/sparkline.js.download}"></script>
+
+	<!-- jquery ScrollUp JS -->
+	<script
+		th:src="@{./resources/static/downloadjs/jquery.scrollUp.js.download}"></script>
+
+	<!-- Sliders JS -->
+	<script
+		th:src="@{./resources/static/downloadjs/bootstrap-slider.js.download}"></script>
+
+	<!-- Notifications JS -->
+	<script th:src="@{./resources/static/js/alertify.js}"></script>
+	<script th:src="@{./resources/static/js/alertify-custom.js}"></script>
+
+	<!-- Custom Index -->
+	<script th:src="@{./resources/static/downloadjs/custom.js.download}"></script>
+	<script
+		th:src="@{./resources/static/downloadjs/custom-components.js.download}"></script>
+
+	<script th:src="@{./resources/static/js/multiselect.min.js}"></script>	
+
+<a id="scrollUp" href="widgetContainer.html#top"
+   style="position: fixed; z-index: 2147483647;" data-original-title="" title="">
+    <i class="fa fa-chevron-up"></i>
+</a></body>
+</html>

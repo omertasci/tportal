@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<!-- saved from url=(0051)http://bootstrap.gallery/everest-v3/datatables.html -->
+<html lang="en"
+	xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org">
+    <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"> </meta>
+		<meta name="description" content="Triote IoT Panel"></meta>
+		<meta name="keywords" content="Admin, Dashboard, Bootstrap3, Sass, transform, CSS3, HTML5, Web design, UI Design, Responsive Dashboard, Responsive Admin, Admin Theme, Best Admin UI, Bootstrap Theme, Wrapbootstrap, Bootstrap"></meta>
+		<meta name="author" content="Bootstrap Gallery"></meta>
+		<link rel="shortcut icon" href="http://bootstrap.gallery/everest-v3/img/favicon.ico"></link>
+		
+
+		<script th:src="@{./resources/static/js/jquery-1.10.2.min.js}"></script>
+		<script th:src="@{./resources/static/js/bootstrap.min.js}"></script>
+		
+		<!-- Bootstrap CSS -->
+		<link th:href="@{./resources/static/css/bootstrap.min.css}"	rel="stylesheet" media="screen"></link>
+		
+		<link rel="shortcut icon"
+			th:href="@{./resources/static/img/tor-icon.png}"></link>
+		<title>Triote IoT Panel</title>
+		
+		<!-- Animate CSS -->
+		<link th:href="@{./resources/static/css/animate.css}" rel="stylesheet"	media="screen"></link>
+		
+			<!-- Alertify CSS -->
+			<link th:href="@{./resources/static/css/alertify.core.css}" rel="stylesheet"></link>
+			<link th:href="@{./resources/static/css/alertify.default.css}" rel="stylesheet"></link>
+		
+		<!-- Main CSS -->
+		<link th:href="@{./resources/static/css/main.css}" rel="stylesheet"		media="screen"></link>
+		
+		<!-- Slider CSS -->
+		<link th:href="@{./resources/static/css/slider.css}" rel="stylesheet"></link>
+		
+		<!-- Font Awesome -->
+		<link th:href="@{./resources/static/css/font-awesome.min.css}"	rel="stylesheet"></link>
+		
+		<script th:src="@{./resources/static/js/portaljs/leftMenu.js}"></script>
+		
+		<!-- 	Map -->
+		<script th:src="@{./resources/static/js/portaljs/consumption_dimlevelRep.js}"></script>
+		<link th:href="@{./resources/static/css/map/custom-map.css}" rel="stylesheet"></link>
+		
+		<!-- 	Bootstrap Select -->
+		<link th:href="@{./resources/static/css/bootstrap-select.css}" rel="stylesheet"></link>
+		<script th:src="@{./resources/static/js/bootstrap-select.js}"></script>
+		
+		<script th:src="@{./resources/static/js/moment.js}"></script>
+		<script th:src="@{./resources/static/js/bootstrap-datetimepicker.min.js}"></script>
+		
+
+		<!-- HTML5 shiv and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!--[if lt IE 9]>
+			<script src="js/html5shiv.js"></script>
+			<script src="js/respond.min.js"></script>
+		<![endif]-->
+
+	<style type="text/css">.jqstooltip { position: absolute;left: 0px;top: 0px;visibility: hidden;background: rgb(0, 0, 0) transparent;background-color: rgba(0,0,0,0.6);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";color: white;font: 10px arial, san serif;text-align: left;white-space: nowrap;padding: 5px;border: 1px solid white;z-index: 10000;}.jqsfield { color: white;font: 10px arial, san serif;text-align: left;}</style></head>  
+	<script th:inline="javascript">
+
+			  var gwgroups = [[${session.allGWGroups}]];  
+			    window.gwgroups=gwgroups;
+			    console.log("gwgroups: ");
+			    console.log(window.gwgroups);	    
+			  
+			    
+			    var elkUrl = [[${elkUrl}]];    
+			    window.elkUrl=elkUrl;
+			    console.log("elkUrl: ");
+			    console.log(window.elkUrl);
+		
+	</script>
+	<body>
+
+		<div th:include="leftMenu :: menuTemplate"></div>
+
+<div class="dashboard-wrapper">
+
+		<!-- Top Bar starts -->
+		<div class="top-bar">
+			<div class="page-title">Consumption - Dim Level Report</div>			
+		</div>
+		<!-- Top Bar ends -->
+		<!-- Select starts -->
+		<div class="col-lg-12 col-md-12" style="background-color: #ededed;">
+		
+				<div class="col-lg-3 col-md-3" style= "margin-top: 0.5em; margin-bottom: 0.5em; float: left;">								
+						<select id ="gwgFilterSelect" class="selectpicker gwgFilterSelectPicker" data-live-search="true" data-selected-text-format="count" data-width="fit">
+						</select>				
+				</div>
+				<div class="col-lg-2 col-md-2" style= "margin-top: 0.5em; margin-bottom: 0.5em; margin-left: 4em;">								
+						<select id ="gatewayFilterSelect" class="selectpicker gatewayFilterSelectPicker" multiple="true" data-live-search="true" data-selected-text-format="count" data-width="fit">
+						</select>				
+				</div>
+				<div class="squared-check" style= "margin-top: 1em;">
+						<input type="checkbox" value="None" id="deviceCheck" name="check"></input>
+						<label for="deviceCheck"></label>
+						<div class="cb-label">Select Device</div>
+				</div>
+				<div class="col-lg-2 col-md-2" style= "margin-top: 0.5em; margin-bottom: 0.5em; margin-left: 4em;">								
+						<select id ="deviceFilterSelect" class="selectpicker deviceFilterSelectPicker" multiple="true" data-live-search="true" data-selected-text-format="count" data-width="fit">
+						</select>				
+				</div>
+				<br/>
+				
+				<div class="container col-lg-12 col-md-12">
+				    <div class='col-md-3'>
+				        <div class="form-group">
+				            <div class='input-group date startDatePicker' id='datetimepicker6'>
+				                <input type='text' class="form-control" />
+				                <span class="input-group-addon">
+				                    <span class="glyphicon glyphicon-calendar"></span>
+				                </span>
+				            </div>
+				        </div>
+				    </div>
+				    <div class='col-md-3'>
+				        <div class="form-group">
+				            <div class='input-group date endDatePicker' id='datetimepicker7'>
+				                <input type='text' class="form-control" />
+				                <span class="input-group-addon">
+				                    <span class="glyphicon glyphicon-calendar"></span>
+				                </span>
+				            </div>
+				        </div>
+				    </div>
+				    <button id="refresh" type="button" class="btn btn-warning" data-original-title="" title="" style="margin-right:7em; margin-top: 0.5em; margin-bottom: 0.5em; float:right">
+								<i class="fa fa-refresh"></i> Search
+					</button>
+			</div>
+				
+		</div>
+			
+		<!-- Select ends -->
+		<!-- Kibana starts -->
+		<div id ="kibanaPanel">
+		
+		<!-- 		<iframe src="http://localhost:5601/app/kibana#/visualize/edit/2df993b0-ea25-11e7-b4fa-95ae4683a8b4?embed=true&amp;_g=(refreshInterval:(display:Off,pause:!f,value:0),time:(from:'2017-12-17T21:00:00.000Z',mode:absolute,to:'2017-12-26T20:59:59.999Z'))&amp;_a=(filters:!(),linked:!f,query:(language:lucene,query:'(group_name:TRIOTE_1_1+AND+csi:mn-cse+AND+app_id:LAMP_0)+OR+(group_name:TRIOTE_1_1+AND+csi:mn-cse+AND+app_id:LAMP_1)'),uiState:(spy:(mode:(fill:!f,name:!n))),vis:(aggs:!((enabled:!t,id:'2',params:(customLabel:Level,field:level,order:desc,orderBy:'3',size:5),schema:group,type:terms),(enabled:!t,id:'3',params:(customLabel:'Count+of+Level+Value'),schema:metric,type:count),(enabled:!t,id:'4',params:(customInterval:'2h',customLabel:'Date+per+hour',extended_bounds:(),field:cdate,interval:h,min_doc_count:1,row:!f),schema:split,type:date_histogram),(enabled:!t,id:'5',params:(customLabel:Consumption,field:consumption),schema:metric,type:sum)),params:(addLegend:!t,addTimeMarker:!f,addTooltip:!t,categoryAxes:!((id:CategoryAxis-1,labels:(show:!t,truncate:100),position:bottom,scale:(type:linear),show:!t,style:(),title:(),type:category)),grid:(categoryLines:!f,style:(color:%23eee)),legendPosition:right,seriesParams:!((data:(id:'3',label:'Count+of+Level+Value'),drawLinesBetweenPoints:!t,mode:stacked,show:!t,showCircles:!t,type:histogram,valueAxis:ValueAxis-1),(data:(id:'5',label:Consumption),drawLinesBetweenPoints:!t,lineWidth:5,mode:normal,show:!t,showCircles:!t,type:line,valueAxis:ValueAxis-2)),times:!(),type:histogram,valueAxes:!((id:ValueAxis-1,labels:(filter:!f,rotate:0,show:!t,truncate:100),name:LeftAxis-1,position:left,scale:(mode:normal,type:linear),show:!t,style:(),title:(text:'Count+of+Level+Value'),type:value),(id:ValueAxis-2,labels:(filter:!f,rotate:0,show:!t,truncate:100),name:RightAxis-1,position:right,scale:(mode:normal,type:linear),show:!t,style:(),title:(text:Consumption),type:value))),title:'Consumption+an+Dim+Level+Graph+over+Create+Date',type:histogram))" height="800" width="1200"></iframe> -->
+		
+		</div>	
+		
+		<!-- Main Container ends -->
+
+		<!-- Footer starts -->
+		<footer> Copyright Triote IoT Panel 2017. </footer>
+		<!-- Footer ends -->
+
+	</div>
+
+
+		<!-- Dashboard Wrapper ends -->
+		
+<!-- 		AIzaSyDLBAPftOD40mS6uPO5BAP1e0HxvtswGSc -->
+<!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&amp;callback=initMap" type="text/javascript"></script>		 -->
+
+
+<!-- 		<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script> -->
+<!--         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> -->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLBAPftOD40mS6uPO5BAP1e0HxvtswGSc"></script>
+          
+        
+
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<!-- 		<script th:src="@{./resources/static/js/jquery.js}" src="/js/jquery.js"></script> -->
+
+		<!-- Include all compiled plugins (below), or include individual files as needed -->
+<!-- 		<script th:src="@{./resources/static/js/bootstrap.min.js}" src="./js/bootstrap.min.js"></script> -->
+
+		<!-- Custom Index -->
+		
+
+	<!-- Sparkline graphs -->
+	<script th:src="@{./resources/static/downloadjs/sparkline.js.download}"></script>
+
+	<!-- jquery ScrollUp JS -->
+	<script
+		th:src="@{./resources/static/downloadjs/jquery.scrollUp.js.download}"></script>
+
+	<!-- Sliders JS -->
+	<script
+		th:src="@{./resources/static/downloadjs/bootstrap-slider.js.download}"></script>
+
+	<!-- Notifications JS -->
+	<script th:src="@{./resources/static/js/alertify.js}"></script>
+	<script th:src="@{./resources/static/js/alertify-custom.js}"></script>
+
+	<!-- Custom Index -->
+	<script th:src="@{./resources/static/downloadjs/custom.js.download}"></script>
+	<script
+		th:src="@{./resources/static/downloadjs/custom-components.js.download}"></script>
+
+	<script th:src="@{./resources/static/js/multiselect.min.js}"></script>
+
+	<!-- jQuery UI JS  tt-->
+	<script th:src="@{./resources/static/js/jquery-ui-v1.10.3.js}"></script>
+
+
+	<a id="scrollUp"
+		href="test-table.html#top"
+		style="position: fixed; z-index: 2147483647;" data-original-title=""
+		title=""><i class="fa fa-chevron-up"></i></a>
+</body>
+</html>

@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)http://bootstrap.gallery/everest-v3/components.html# -->
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org">
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+    <meta name="description" content="Everest Admin Panel"></meta>
+    <meta name="keywords"
+          content="Admin, Dashboard, Bootstrap3, Sass, transform, CSS3, HTML5, Web design, UI Design, Responsive Dashboard, Responsive Admin, Admin Theme, Best Admin UI, Bootstrap Theme, Wrapbootstrap, Bootstrap"></meta>
+    <meta name="author" content="Bootstrap Gallery"></meta>
+
+    <!-- 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <!-- 	    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>	 -->
+
+    <script th:src="@{./resources/static/js/jquery-1.10.2.min.js}"></script>
+    <script th:src="@{./resources/static/js/jquery.js}" src="js/jquery.js"></script>
+    <script th:src="@{./resources/static/js/bootstrap.min.js}"></script>
+
+    <!--     Bootstrap CSS -->
+    <link th:href="@{./resources/static/css/bootstrap.min.css}" rel="stylesheet" media="screen"></link>
+
+    <link rel="shortcut icon" th:href="@{./resources/static/img/tor-icon.png}"></link>
+    <title>Triote IoT Panel</title>
+
+
+    <!-- Animate CSS -->
+    <link th:href="@{./resources/static/css/animate.css}" rel="stylesheet" media="screen"></link>
+
+    <!-- Main CSS -->
+    <link th:href="@{./resources/static/css/main.css}" rel="stylesheet" media="screen"></link>
+
+    <!-- Slider CSS -->
+    <link th:href="@{./resources/static/css/slider.css}" rel="stylesheet"></link>
+
+    <!-- Font Awesome -->
+    <link th:href="@{./resources/static/css/font-awesome.min.css}" rel="stylesheet"></link>
+
+    <!-- Datatable CSS -->
+    <!--     <link th:href="@{./resources/static/css/jquery.dataTables.min.css}" type="text/css" rel="stylesheet"></link> -->
+    <link th:href="@{./resources/static/css/dataTables.bs.min.css}" type="text/css" rel="stylesheet"></link>
+    <link th:href="@{./resources/static/css/autoFill.bs.min.css}" type="text/css" rel="stylesheet"></link>
+    <link th:href="@{./resources/static/css/fixedHeader.bs.css}" type="text/css" rel="stylesheet"></link>
+    <link th:href="@{./resources/static/css/buttons.bs.css}" type="text/css" rel="stylesheet"></link>
+
+
+    <!-- ManageApplication Js -->
+    <script th:src="@{./resources/static/js/portaljs/manageApplication.js}"></script>
+    <script th:src="@{./resources/static/js/portaljs/leftMenu.js}"></script>
+
+    <!-- HTML5 shiv and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+
+    <style type="text/css">
+        .jqstooltip { position: absolute;left: 0px;top: 0px;visibility: hidden;background: rgb(0, 0, 0) transparent;background-color: rgba(0,0,0,0.6);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";color: white;font: 10px arial, san serif;text-align: left;white-space: nowrap;padding: 5px;border: 1px solid white;z-index: 10000;}.jqsfield { color: white;font: 10px arial, san serif;text-align: left;}
+
+
+    </style>
+</head>
+
+<body class="">
+
+<script th:inline="javascript">
+		// <![CDATA[
+
+		            var applicationList = [[${applicationList}]];
+		            
+		//  ]]>
+
+
+</script>
+
+<div th:include="leftMenu :: menuTemplate"></div>
+<!-- Left sidebar ends -->
+
+<!-- Dashboard Wrapper starts -->
+<div class="dashboard-wrapper">
+
+    <!-- Top Bar starts -->
+    <div class="top-bar">
+        <label class="page-title" th:text="#{label.appman.panel.title}">Application Manegement Panel></label>
+        <ul class="stats hidden-xs">
+
+        </ul>
+    </div>
+    <!-- Top Bar ends -->
+
+    <!-- Main Container starts -->
+    <div class="main-container">
+
+        <!-- Container fluid Starts -->
+        <div class="container-fluid">
+
+            <!-- Spacer Starts -->
+            <div class="spacer">
+
+                <!-- Row starts -->
+                <div class="row gutter">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="panel panel-light">
+                            <div class="panel-heading">
+                                <h4 th:text="#{label.appman.panel.header}">Application Operations</h4>
+                            </div>
+                            <div class="panel-body"
+                                 sec:authorize="hasAuthority('CREATE_APPLICATION') or  #strings.contains(#authentication.principal.roles,'SUPERADMIN')">
+                                <div class="table-responsive">
+                                    <table id="scrollTable"
+                                           class="display table table-striped table-bordered no-margin">
+                                        <thead>
+                                        <tr>
+                                            <th th:text="#{label.appman.header.definition}"
+                                                class="col-lg-6 col-md-6 col-sx-12 col-sm-12">Definition
+                                            </th>
+                                            <th th:text="#{label.appman.header.method}"
+                                                class="col-lg-6 col-md-6 col-sx-12 col-sm-12">Method
+                                            </th>
+                                            <th th:text="#{label.appman.header.action}"
+                                                class="col-lg-6 col-md-6 col-sx-12 col-sm-12">Action
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td><label th:text="#{label.appman.body.definition}"
+                                                       class="col-lg-6 col-md-6 col-sx-12 col-sm-12">Create
+                                                New Application</label></td>
+                                            <td><label th:text="#{label.appman.body.method}"
+                                                       class="col-lg-6 col-md-6 col-sx-12 col-sm-12">createApplicationManagement
+                                            </label></td>
+                                            <td>
+                                                <button th:text="#{label.appman.btn.create}" id="generateModalBtn"
+                                                        class="btn btn-success"
+                                                        data-toggle="modal" data-target="#generateModal"
+                                                        data-original-title="" title="">Create
+                                                </button>
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="generateModal" tabindex="-1" role="dialog"
+                                                     aria-labelledby="myModalLabel5" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                        aria-hidden="true">×
+                                                                </button>
+                                                                <h4 th:text="#{label.appman.modal.title}"
+                                                                    class="modal-title text-info" id="myModalLabel5">
+                                                                    Create Application</h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <!-- content goes here -->
+                                                                <form>
+                                                                    <div class="form-group">
+                                                                        <label th:text="#{label.appman.modal.appname}"
+                                                                               for="appname">Name:</label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="appname"
+                                                                               placeholder="Enter Application Name"></input>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label th:text="#{label.appman.modal.maxuser}"
+                                                                               for="maxuser">Name:</label>
+                                                                        <input type="number" class="form-control"
+                                                                               id="maxuser"
+                                                                               placeholder="Enter Max User Number"></input>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label th:text="#{label.appman.modal.maxstorage}"
+                                                                               for="maxstorage">Name:</label>
+                                                                        <input type="number" class="form-control"
+                                                                               id="maxstorage"
+                                                                               placeholder="Enter Max Storage Number (GigaByte)"></input>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label th:text="#{label.appman.modal.maxusage}"
+                                                                               for="maxusage">Name:</label>
+                                                                        <input type="number" class="form-control"
+                                                                               id="maxusage"
+                                                                               placeholder="Enter Max Usage Number (byte)"></input>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label th:text="#{label.appman.modal.company}"
+                                                                               for="company">Company:</label>
+                                                                        <select class="form-control" id="company">
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label th:text="#{label.appman.modal.iplist}" class="col-lg-12 col-md-12 control-label" for="ipContainer" >IP</label>
+                                                                        <div id="ipContainer" class="col-lg-12 col-md-12 col-sm-12">
+                                                                            <div id="iplist" class="ip-list">
+                                                                                <div class="input-group ip-input">
+					                                                        	<span class="input-group-btn">
+                                                    							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                                                                     aria-expanded="false">
+			                                                     				<span class="type-text">Type</span>
+                                                                                    <span class="caret"></span></button>
+                                                                                    <ul class="dropdown-menu" role="menu">
+                                                                                        <li><a class="changeType" href="javascript:;" data-type-value="IPv4">IPv4</a></li>
+                                                                                        <li><a class="changeType" href="javascript:;" data-type-value="IPv6">IPv6</a></li>
+                                                                                    </ul>
+                                                                                </span>
+                                                                                    <input id="ip[1][type]" type="hidden"
+                                                                                           name="ip[1][type]"
+                                                                                           class="type-input"
+                                                                                           value="IPv4"></input>
+                                                                                    <input id="ip[1][text]" type="text"
+                                                                                           name="ip[1][text]"
+                                                                                           class="form-control"
+                                                                                           placeholder="Enter your ip address"></input>
+                                                                                </div>
+                                                                            </div>
+                                                                            <button type="button"
+                                                                                    class="btn btn-success btn-sm btn-add-ip">
+                                                                                <span class="glyphicon glyphicon-plus"></span>
+                                                                                Add IP
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </form><br/><br/><br/><br/><br/>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-danger"
+                                                                        data-dismiss="modal" data-original-title=""
+                                                                        title=""><i class="fa fa-times"></i> Close
+                                                                </button>
+                                                                <button th:text="#{label.appman.btn.create}"
+                                                                        id="generate" type="button"
+                                                                        class="btn btn-success" data-original-title=""
+                                                                        title=""><i class="fa fa-save"></i> Create
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+                            <!-- Row starts -->
+                            <div class="row gutter">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="panel panel-light">
+                                        <div class="panel-heading">
+                                            <h4 th:text="#{label.appman.panel.body}">Application List</h4>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="table-responsive">
+                                                <div id="copy-print-csv_wrapper"
+                                                     class="dataTables_wrapper form-inline dt-bootstrap">
+                                                    <div class="dt-buttons">
+
+                                                    </div>
+                                                    <div id="copy-print-csv_filter" class="dataTables_filter">
+
+                                                    </div>
+                                                    <table id="applicationTbl"
+                                                           class="display table table-striped table-bordered no-margin dataTable"
+                                                           role="grid" aria-describedby="applictionTbl_info">
+                                                        <thead>
+                                                        <tr role="row">
+                                                            <th class="sorting_asc" tabindex="0"
+                                                                aria-controls="applictionTbl" rowspan="1" colspan="1"
+                                                                aria-label="Application Name: activate to sort column ascending"
+                                                                style="width:10%;">Name
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="applictionTbl" rowspan="1" colspan="1"
+                                                                aria-label="Licence Key: activate to sort column ascending"
+                                                                style="width:10%;">Licence Key
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="applictionTbl" rowspan="1" colspan="1"
+                                                                aria-label="Status: activate to sort column ascending"
+                                                                style="width:5%;">Status
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="applictionTbl" rowspan="1" colspan="1"
+                                                                aria-label="Max User: activate to sort column ascending"
+                                                                style="width:5%;">Max User
+                                                            </th>
+                                                            <th class="sorting_asc" tabindex="0"
+                                                                aria-controls="applictionTbl" rowspan="1" colspan="1"
+                                                                aria-label="Max Storage: activate to sort column ascending"
+                                                                style="width:5%;">Max Storage (GigaBytes)
+                                                            </th>
+                                                            <th class="sorting_asc" tabindex="0"
+                                                                aria-controls="applictionTbl" rowspan="1" colspan="1"
+                                                                aria-label="Max Usage: activate to sort column ascending"
+                                                                style="width:10%;">Max Usage (Bytes)
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="applictionTbl" rowspan="1" colspan="1"
+                                                                aria-label="Create Date: activate to sort column ascending"
+                                                                style="width:15%;">Create Date
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="applictionTbl" rowspan="1" colspan="1"
+                                                                aria-label="Update Date: activate to sort column ascending"
+                                                                style="width:15%;">Update Date
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="applictionTbl" rowspan="1" colspan="1"
+                                                                aria-label="Created By User ID: activate to sort column ascending"
+                                                                style="width:10%;">Created By User
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="applictionTbl" rowspan="1" colspan="1"
+                                                                aria-label="Updated By User ID: activate to sort column ascending"
+                                                                style="width:10%;">Updated By User
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="applictionTbl" rowspan="1" colspan="1"
+                                                                aria-label="IP List: activate to sort column ascending"
+                                                                style="width:10%;">IP List
+                                                            </th>
+                                                            <th class="sorting" tabindex="0"
+                                                                aria-controls="applictionTbl" rowspan="1" colspan="1"
+                                                                aria-label="Action: activate to sort column ascending"
+                                                                style="width:5%;">Action
+                                                            </th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tfoot>
+                                                        <tr>
+                                                            <th rowspan="1" colspan="1">Name</th>
+                                                            <th rowspan="1" colspan="1">Licence Key</th>
+                                                            <th rowspan="1" colspan="1">Status</th>
+                                                            <th rowspan="1" colspan="1">Max User</th>
+                                                            <th rowspan="1" colspan="1">Max Storage (GigaBytes)</th>
+                                                            <th rowspan="1" colspan="1">Max Usage (Bytes)</th>
+                                                            <th rowspan="1" colspan="1">Create Date</th>
+                                                            <th rowspan="1" colspan="1">Update Date</th>
+                                                            <th rowspan="1" colspan="1">Created By User</th>
+                                                            <th rowspan="1" colspan="1">Updated By User</th>
+                                                            <th rowspan="1" colspan="1">IP List</th>
+                                                            <th rowspan="1" colspan="1">Action</th>
+                                                        </tr>
+                                                        </tfoot>
+
+                                                    </table>
+                                                    <div class="dataTables_paginate paging_simple_numbers"
+                                                         id="applictionTbl_paginate">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Row ends -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Spacer Ends -->
+
+        </div>
+        <!-- Container fluid ends -->
+
+    </div>
+    <!-- Main Container ends -->
+
+    <!-- Footer starts -->
+    <footer>
+        Copyright Triote IoT Panel 2017.
+    </footer>
+    <!-- Footer ends -->
+
+</div>
+<!-- Dashboard Wrapper ends -->
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<!-- <script th:src="@{./resources/static/downloadjs/jquery.js}"></script> -->
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<!-- <script th:src="@{./resources/static/downloadjs/bootstrap.min.js.download}"></script> -->
+
+<!-- Sparkline graphs -->
+<script th:src="@{./resources/static/downloadjs/sparkline.js.download}"></script>
+
+<!-- jquery ScrollUp JS -->
+<script th:src="@{./resources/static/downloadjs/jquery.scrollUp.js.download}"></script>
+
+<!-- Sliders JS -->
+<script th:src="@{./resources/static/downloadjs/bootstrap-slider.js.download}"></script>
+
+<!-- Custom Index -->
+<script th:src="@{./resources/static/downloadjs/custom.js.download}"></script>
+<script th:src="@{./resources/static/downloadjs/custom-components.js.download}"></script>
+
+<!-- JQuery Datatable JS (required for datatables)-->
+<!-- <script th:src="@{./resources/static/js/jquery.dataTables.min.js}"></script> -->
+
+<!-- Data Tables -->
+<script th:src="@{./resources/static/js/datatables/dataTables.min.js}" src="js/datatables/dataTables.min.js"></script>
+<script th:src="@{./resources/static/js/datatables/dataTables.bootstrap.min.js}"
+        src="js/datatables/dataTables.bootstrap.min.js"></script>
+<script th:src="@{./resources/static/js/datatables/dataTables.tableTools.js}"
+        src="js/datatables/dataTables.tableTools.js"></script>
+<script th:src="@{./resources/static/js/datatables/autoFill.min.js}" src="js/datatables/autoFill.min.js"></script>
+<script th:src="@{./resources/static/js/datatables/autoFill.bootstrap.min.js}"
+        src="js/datatables/autoFill.bootstrap.min.js"></script>
+<script th:src="@{./resources/static/js/datatables/fixedHeader.min.js}" src="js/datatables/fixedHeader.min.js"></script>
+
+<!-- Download / CSV / Copy / Print -->
+<script th:src="@{./resources/static/js/datatables/buttons.min.js}" src="js/datatables/buttons.min.js"></script>
+<script th:src="@{./resources/static/js/datatables/flash.min.js}" src="js/datatables/flash.min.js"></script>
+<script th:src="@{./resources/static/js/datatables/jszip.min.js}" src="js/datatables/jszip.min.js"></script>
+<script th:src="@{./resources/static/js/datatables/pdfmake.min.js}" src="js/datatables/pdfmake.min.js"></script>
+<script th:src="@{./resources/static/js/datatables/vfs_fonts.js}" src="js/datatables/vfs_fonts.js"></script>
+<script th:src="@{./resources/static/js/datatables/html5.min.js}" src="js/datatables/html5.min.js"></script>
+<script th:src="@{./resources/static/js/datatables/buttons.print.min.js}"
+        src="js/datatables/buttons.print.min.js"></script>
+
+
+<a id="scrollUp" href="#" style="position: fixed; z-index: 2147483647;" data-original-title="" title=""><i
+        class="fa fa-chevron-up"></i></a></body>
+</html>

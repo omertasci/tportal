@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<!-- saved from url=(0046)http://bootstrap.gallery/everest-v3/index.html -->
+<html lang="en"
+xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"> </meta>
+		<meta name="description" content="Triote IoT Panel"></meta>
+		<meta name="keywords" content="Admin, Dashboard, Bootstrap3, Sass, transform, CSS3, HTML5, Web design, UI Design, Responsive Dashboard, Responsive Admin, Admin Theme, Best Admin UI, Bootstrap Theme, Wrapbootstrap, Bootstrap"></meta>
+		<meta name="author" content="Bootstrap Gallery"></meta>
+		<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> </link>
+	    
+<!-- 	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+<!-- 	    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>	     -->
+		
+		<script th:src="@{./resources/static/js/jquery-1.10.2.min.js}"></script>
+		<script th:src="@{./resources/static/js/bootstrap.min.js}"></script>
+		
+		<link rel="shortcut icon" th:href="@{./resources/static/img/icon.png}" ></link>
+		<title>Triote IoT Panel</title>
+		
+		<!-- Bootstrap CSS -->
+		<link th:href="@{./resources/static/css/bootstrap.min.css}"  type="text/css" rel="stylesheet" media="screen"></link>
+
+		<!-- Animate CSS -->
+		<link th:href="@{./resources/static/css/animate.css}" type="text/css" rel="stylesheet" media="screen"></link>
+		
+		<!-- Alertify CSS -->
+		<link th:href="@{./resources/static/css/alertify.core.css}" rel="stylesheet"></link>
+		<link th:href="@{./resources/static/css/alertify.default.css}" rel="stylesheet"></link>
+
+		<!-- Main CSS -->
+		<link th:href="@{./resources/static/css/main.css}" type="text/css" rel="stylesheet" media="screen"></link>
+		
+		<!-- Slider CSS -->
+		<link th:href="@{./resources/static/css/slider.css}" rel="stylesheet"></link>
+				
+		<!-- Datepicker CSS -->
+		<link rel="stylesheet" type="text/css" th:href="@{./resources/static/css/datepicker.css}"></link>
+
+		<!-- Bar Indicator -->
+		<link th:href="@{./resources/static/css/barIndicator.css}" type="text/css" rel="stylesheet"></link>
+
+		<!-- Font Awesome -->
+		<link th:href="@{./resources/static/css/font-awesome.min.css}" type="text/css" rel="stylesheet"></link>
+		
+		<link th:href="@{./resources/static/css/listMenu.css}" type="text/css" rel="stylesheet"></link>
+			
+		<link href="./css/c3/c3.css" th:href="@{./resources/static/css/c3/c3.css}" type="text/css" rel="stylesheet"></link>
+					
+		<!-- 		Highcharts  -->
+		<script th:src="@{./resources/static/js/highcharts/highcharts.js}" ></script>
+		<script th:src="@{./resources/static/js/highcharts/exporting.js}"></script>
+		
+		<!-- Index Js -->
+		<script th:src="@{./resources/static/js/portaljs/index.js}"></script>			
+		<script th:src="@{./resources/static/js/portaljs/leftMenu.js}"></script>
+
+		<style type="text/css">
+		.jqstooltip {
+			position: absolute;
+			left: 0px;
+			top: 0px;
+			visibility: hidden;
+			background: rgb(0, 0, 0) transparent;
+			background-color: rgba(0, 0, 0, 0.6);
+			filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000,
+				endColorstr=#99000000);
+			-ms-filter:
+				"progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";
+			color: white;
+			font: 10px arial, san serif;
+			text-align: left;
+			white-space: nowrap;
+			padding: 5px;
+			border: 1px solid white;
+			z-index: 10000;
+		}
+		
+		.jqsfield {
+			color: white;
+			font: 10px arial, san serif;
+			text-align: left;
+		}
+		</style>
+		
+		<script th:inline="javascript">
+		
+		    var result = [[${result}]];    
+		    window.result=result;
+		 
+		</script>
+		
+		
+		<!-- HTML5 shiv and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!--[if lt IE 9]>
+			<script src="js/html5shiv.js"></script>
+			<script src="js/respond.min.js"></script>
+		<![endif]-->
+
+<!-- 	<style type="text/css">.jqstooltip { position: absolute;left: 0px;top: 0px;visibility: hidden;background: rgb(0, 0, 0) transparent;background-color: rgba(0,0,0,0.6);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";color: white;font: 10px arial, san serif;text-align: left;white-space: nowrap;padding: 5px;border: 1px solid white;z-index: 10000;}.jqsfield { color: white;font: 10px arial, san serif;text-align: left;}</style></head>   -->
+<!-- 	</style> -->
+</head>
+	<body>
+	
+	<script th:inline="javascript">
+	$(document).ready(function () {
+// 		    alertify.success("Alertify Message ");
+	});
+		</script>
+		
+		<div th:include="leftMenu :: menuTemplate"></div>
+	
+		<!-- Left sidebar ends -->
+		<!-- Dashboard Wrapper starts -->
+		<div class="dashboard-wrapper">
+
+			<!-- Top Bar starts -->
+			<div class="top-bar">
+				<div class="page-title">
+					Dashboard
+					
+				</div>
+				
+			</div>
+			<!-- Top Bar ends -->
+
+			<!-- Main Container starts -->
+			<div class="main-container">
+
+				<!-- Container fluid Starts -->
+				<div class="container-fluid">
+
+					<!-- Current Stats Start -->
+					<div class="current-stats">
+						<div class="row">
+							<div class="col-lg-6 col-md-4 col-sm-4 col-xs-6">
+								<div class="orange-bg center-align-text">
+									<div class="spacer-xs">
+										<i class="fa fa-2x"></i>
+										<small class="text-white">Number of Online GWs</small>
+										<h3 id="numberOfGWs" class="no-margin no-padding text-white"></h3>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-6 col-md-4 col-sm-4 col-xs-6">
+								<div class="info-bg center-align-text">
+									<div class="spacer-xs">
+										<i class="fa fa-2x"></i>
+										<small class="text-white">Number of Online Devices</small>
+										<h3 id="numberOfDevices" class="no-margin no-padding"></h3>
+									</div>
+								</div>
+							</div>							
+						</div>					
+						 
+						<div class="row" >
+							<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+								<div class="success-bg center-align-text">
+									<div class="spacer-xs">
+										<i class="fa fa-2x"></i>
+										<small class="text-white">LAMPS ON</small>
+										<h3 id="numberOfLampsOn" class="no-margin no-padding text-white"></h3>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+								<div class="brown-bg center-align-text">
+									<div class="spacer-xs">
+										<i class="fa fa-2x"></i>
+										<small class="text-white">LAMPS OFF</small>
+										<h3 id="numberOfLampsOff" class="no-margin no-padding"></h3>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+								<div class="danger-bg center-align-text">
+									<div class="spacer-xs">
+										<i class="fa fa-2x"></i>
+										<small class="text-white">LAMPS ERROR</small>
+										<h3 id="numberOfLampsError" class="no-margin no-padding"></h3>
+									</div>
+								</div>
+							</div>							
+						</div>
+					</div>
+					<!-- Current Stats End -->
+					
+					
+				<div class="spacer">
+					<!-- Row starts -->
+					<div class="row gutter">
+						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+							<div class="panel panel-light">
+								<div class="panel-heading">
+									<h4 class="panel-title">GWs States</h4>
+								</div>
+								<div class="panel-body">
+									<div id="gwStatesPieChart" class="chart-height2"></div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+							<div class="panel panel-light">
+								<div class="panel-heading">
+									<h4 class="panel-title">GWs Versions</h4>
+								</div>
+								<div class="panel-body">
+									<div id="gwVersionChart" class="chart-height2"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Row ends -->
+										
+					<!-- Row starts -->
+					<div class="row gutter">
+						<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+							<div class="panel panel-light">
+									<div class="panel-heading">
+										<h4 class="panel-title">All Gateways Consumptions (Watt)</h4>
+									</div>
+									<div style="width: 80%; margin: 0 auto; margin-bottom: 0.5em">
+										<div >	
+												<label class="radio-inline">
+												  <input type="radio" name="optradio" id="inlineRadio1" value="1">Last 1 Day</input>
+												</label>
+												<label class="radio-inline">
+												  <input type="radio" name="optradio" id="inlineRadio2" value="7">Last 7 Days</input>
+												</label>
+												<label class="radio-inline ">
+												  <input type="radio" name="optradio" id="inlineRadio3" value="30" checked="true" >Last 30 Days</input>
+												</label>
+												
+												
+										<script> $("input[name=optradio]").change(function () {
+											loadReportDataByDuration(3,this.value);
+										
+										});</script>
+										</div>
+									</div>
+									<div class="panel-body">
+										<div id="lineGraph" class="chart-height2 col-lg-12 col-md-12 col-sm-6 col-xs-6"></div>										
+									</div>
+									
+								</div>
+						</div>
+						<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+							<div class="panel panel-light">
+								<div class="panel-heading">
+									<h4 class="panel-title">Dim Levels (Lamps)</h4>
+								</div>
+								<div class="panel-body">
+									<div id="stackedBarGraph" class="chart-height3 col-lg-12 col-md-12 col-sm-6 col-xs-6"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Row ends -->
+				</div>
+					
+
+				</div>
+				<!-- Container fluid ends -->
+			</div>
+			<!-- Main Container ends -->
+
+			<!-- Footer starts -->
+			<footer>
+				Copyright Triote IoT Panel 2017.
+			</footer>
+			<!-- Footer ends -->
+
+		</div>
+		<!-- Dashboard Wrapper ends -->
+		
+		<!-- jQuery UI JS -->
+		<script	th:src="@{./resources/static/js/jquery-ui-v1.10.3.js}"></script>
+	
+		<!-- Sparkline graphs -->
+		<script th:src="@{./resources/static/js/sparkline.js}"></script>
+
+		<!-- jquery ScrollUp JS -->
+		<script	th:src="@{./resources/static/js/scrollup/jquery.scrollUp.js}"></script>
+
+		<!-- Sliders JS -->
+		<script th:src="@{./resources/static/js/bootstrap-slider.js}"></script>
+
+	<!-- Notifications JS -->
+		<script th:src="@{./resources/static/js/alertify.js}"></script>
+		<script th:src="@{./resources/static/js/alertify-custom.js}"></script>
+	
+		<!-- D3 JS -->
+		<script th:src="@{./resources/static/js/d3/d3.min.js}"></script>
+		<!-- C3 JS (D3 JS must be included before)-->
+		<script th:src="@{./resources/static/js/c3/c3.min.js}"></script>
+		<script th:src="@{./resources/static/js/c3/c3.custom.js}"></script>
+			
+		<!-- Custom Index -->
+		<script th:src="@{./resources/static/js/custom.js}"></script>
+		<script	th:src="@{./resources/static/js/custom-components.js}"></script>
+		<script th:src="@{./resources/static/js/custom-index.js}" ></script>
+		
+		<!-- jQuery UI JS -->
+		<script th:src="@{./resources/static/js/jquery-ui-v1.10.3.js}"></script>		
+		
+		<!-- Flot Charts -->
+		<script th:src="@{./resources/static/downloadjs/jquery.flot.js.download}"></script>
+		<script th:src="@{./resources/static/downloadjs/jquery.flot.tooltip.min.js.download}"></script>
+		<script th:src="@{./resources/static/downloadjs/jquery.flot.resize.min.js.download}"></script>
+		<script th:src="@{./resources/static/downloadjs/jquery.flot.stack.min.js.download}"></script>
+		<script th:src="@{./resources/static/downloadjs/jquery.flot.orderBar.min.js.download}"></script>
+		<script th:src="@{./resources/static/downloadjs/jquery.flot.pie.min.js.download}"></script>
+	
+	<!-- JVector Map -->
+		<script th:src="@{./resources/static/downloadjs/jquery-jvectormap-1.2.2.min.js.download}"></script>
+		<script th:src="@{./resources/static/downloadjs/jquery-jvectormap-usa.js.download}"></script>
+
+		<!-- Bar Indicator -->
+		<script th:src="@{./resources/static/downloadjs/jquery.easing.1.3.js.download}"></script>
+    <script th:src="@{./resources/static/downloadjs/jquery-barIndicator.js.download}"></script>
+    <script th:src="@{./resources/static/downloadjs/custom-barIndicator.js.download}"></script> 
+   		
+	
+<a id="scrollUp" href="index.html#top" 
+	style="display: none; position: fixed; z-index: 2147483647;">
+	<i class="fa fa-chevron-up"></i>
+</a>
+<div class="jvectormap-label" style="display: none; left: 687px; top: 293px;">Istanbul</div>
+<div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div>
+</body></html>

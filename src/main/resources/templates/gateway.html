@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<!-- saved from url=(0046)http://bootstrap.gallery/everest-v3/index.html -->
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org"
+	xmlns:ddl="http://www.thymeleaf.org/dandelion"
+	xmlns:dt="http://www.thymeleaf.org/dandelion/datatables">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+<meta name="description" content="Everest Admin Panel"></meta>
+<meta name="keywords"
+	content="Admin, Dashboard, Bootstrap3, Sass, transform, CSS3, HTML5, Web design, UI Design, Responsive Dashboard, Responsive Admin, Admin Theme, Best Admin UI, Bootstrap Theme, Wrapbootstrap, Bootstrap"></meta>
+<meta name="author" content="Bootstrap Gallery"></meta>
+<link rel="shortcut icon"
+	th:href="@{./resources/static/img/tor-icon.png}"></link>
+<title>Triote IoT Panel</title>
+
+<script th:src="@{./resources/static/js/jquery-1.10.2.min.js}"></script>
+<script th:src="@{./resources/static/js/bootstrap.min.js}"></script>
+
+<!-- Bootstrap CSS -->
+<link th:href="@{./resources/static/css/bootstrap.min.css}"
+	type="text/css" rel="stylesheet" media="screen"></link>
+
+<!-- Bootstrap Multiselect CSS -->
+<script th:src="@{./resources/static/js/multiselect.min.js}"></script>
+<link th:src="@{./resources/static/css/bootstrap-multiselect.css}"
+	rel="stylesheet" media="screen"></link>
+
+<!-- Animate CSS -->
+<link th:href="@{./resources/static/css/animate.css}" type="text/css"
+	rel="stylesheet" media="screen"></link>
+
+<!-- Alertify CSS -->
+<link th:href="@{./resources/static/css/alertify.core.css}"
+	rel="stylesheet"></link>
+<link th:href="@{./resources/static/css/alertify.default.css}"
+	rel="stylesheet"></link>
+
+<!-- Main CSS -->
+<link th:href="@{./resources/static/css/main.css}" type="text/css"
+	rel="stylesheet" media="screen"></link>
+
+<!-- Datepicker CSS -->
+<link rel="stylesheet" type="text/css"
+	th:href="@{./resources/static/css/datepicker.css}"></link>
+
+<!-- Bar Indicator -->
+<link th:href="@{./resources/static/css/barIndicator.css}"
+	type="text/css" rel="stylesheet"></link>
+
+<!-- Font Awesome -->
+<link th:href="@{./resources/static/css/font-awesome.min.css}"
+	type="text/css" rel="stylesheet"></link>
+
+<!-- Datatable CSS -->
+<!-- 		<link th:href="@{./resources/static/css/jquery.dataTables.min.css}" type="text/css" rel="stylesheet"></link> -->
+
+<link th:href="@{./resources/static/css/dataTables.bs.min.css}"
+	type="text/css" rel="stylesheet"></link>
+<link th:href="@{./resources/static/css/autoFill.bs.min.css}"
+	type="text/css" rel="stylesheet"></link>
+<link th:href="@{./resources/static/css/fixedHeader.bs.css}"
+	type="text/css" rel="stylesheet"></link>
+<link th:href="@{./resources/static/css/buttons.bs.css}" type="text/css"
+	rel="stylesheet"></link>
+
+<!-- 		Highcharts  -->
+<script th:src="@{./resources/static/js/highcharts/highcharts.js}"></script>
+<script th:src="@{./resources/static/js/highcharts/exporting.js}"></script>
+
+<link th:href="@{./resources/static/css/listMenu.css}" type="text/css"
+	rel="stylesheet" media="screen"></link>
+
+<script th:src="@{./resources/static/js/portaljs/gateway.js}"></script>
+<script th:src="@{./resources/static/js/portaljs/leftMenu.js}"></script>
+
+<!-- 		<script th:src="@{./resources/static/js/jquery.js}" src="js/jquery.js"></script>		 -->
+
+<link th:href="@{./resources/static/css/c3/c3.css}" type="text/css"
+	rel="stylesheet"></link>
+
+</head>
+<body>
+	<script th:inline="javascript">
+		// <![CDATA[
+
+		            var childs = [[${childs}]];
+		            
+		            var devices= new Array();
+		            var nonDevices= new Array();
+		            
+		            for(i =0; i<childs.length; i++){
+		            	
+		            	if(childs[i].ty == "AE" || childs[i].ty == "GROUP" || ( childs[i].ty == "FLEXCONTAINER" && childs[i].rn.startsWith( "DEVICE_org.onem2m.home.device" )) || ( childs[i].ty == "FLEXCONTAINER_ANNC" && childs[i].rn.startsWith( "DEVICE_org.onem2m.home.device" ))){
+		            		devices.push(childs[i]);
+		            	}
+		            	else{
+		            		nonDevices.push(childs[i]);
+		            	}
+		            }
+		            
+		            
+		//  ]]>
+	</script>
+
+	<!-- Left sidebar starts -->
+	<div th:include="leftMenu :: menuTemplate"></div>
+	<!-- Left sidebar ends -->
+
+	<!-- Dashboard Wrapper starts -->
+	<div class="dashboard-wrapper">
+		<div class="formden_header" th:unless="${#lists.isEmpty(allReferers)}">
+			<table>
+				<thead>
+					<tr>
+						<th th:each="ref,rowStat : ${allReferers}"><label
+							th:if="${rowStat.count} &gt; 1" th:text="#{>}"> </label> <a
+							class="btn btn-link" th:href="@{${{ref.url}}}"
+							th:text="#{${'label.referer.' + ref.label}} + ${' (' + ref.resource + ')'}"></a>
+						</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		<!-- Top Bar starts -->
+		<div class="top-bar">
+			<div class="page-title">Gateway Content</div>
+			<ul class="stats hidden-xs">
+
+			</ul>
+		</div>
+		<!-- Top Bar ends -->
+
+		<!-- Main Container starts -->
+		<div class="main-container">
+
+			<!-- Container fluid Starts -->
+			<div class="container-fluid">
+
+				<!-- Spacer starts -->
+				<div class="spacer-no-top">
+
+					<div class="row gutter"
+						th:if="${#authorization.expression('hasAuthority(''CREATE_SUBSCRIPTION_DEVICE'')') }">
+
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div class="panel">
+								<div class="panel-heading">
+									<h4 class="panel-title">Gateway Subscription</h4>
+								</div>
+								<div class="panel-body">
+									<button id="subscriptionModalBtn" class="btn btn-success"
+										data-toggle="modal" data-target="#subscriptionModal"
+										data-original-title="" title=""
+										th:text="${'Subscribe Gateway'}"></button>
+									<!-- Modal -->
+									<div class="modal fade" id="subscriptionModal" tabindex="-1"
+										role="dialog" aria-labelledby="myModalLabel5"
+										aria-hidden="true">
+										<div class="modal-dialog">
+											<div id="subsModal" class="modal-content">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal"
+														aria-hidden="true">×</button>
+													<h4 class="modal-title text-info" id="myModalLabel5">Subscription
+														Info</h4>
+												</div>
+												<div class="modal-body">
+													<form id="ipForm" role="form" data-toggle="validator">
+														<div class="form-group">
+															<label for="count">Subscription Name:</label> <input
+																type="text" class="form-control" id="resourceName"
+																placeholder="Enter resource name"></input>
+														</div>
+														<div class="form-group">
+															<label for="count">Resource IP:</label> <input
+																id="resourceIp"
+																placeholder="Ex: http://127.0.0.1:1400/monitor"
+																type="text" class="form-control"> </input> <label
+																id="invalidURL" style="color: red"></label>
+														</div>
+													</form>
+
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-danger"
+														data-dismiss="modal" data-original-title="" title="">
+														<i class="fa fa-times"></i> Close
+													</button>
+													<button id="subscribe" type="button"
+														class="btn btn-success" data-original-title="" title=""
+														onclick="ValidURL(document.getElementById('resourceIp').value)">
+														<i class="fa fa-save"></i> Subscribe
+													</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Row End -->
+
+
+
+					<!-- Row starts -->
+					<div class="row gutter">
+						<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+							<div class="panel panel-light">
+								<div class="panel-heading">
+									<h4 class="panel-title">Gateways Consumptions in GWG(Watt)</h4>
+								</div>
+								<div style="width: 80%; margin: 0 auto; margin-bottom: 0.5em">
+									<div>
+										<label class="radio-inline"> <input type="radio"
+											name="optradio" id="inlineRadio1" value="1">Last 1
+											Day</input>
+										</label> <label class="radio-inline"> <input type="radio"
+											name="optradio" id="inlineRadio2" value="7">Last 7
+											Days</input>
+										</label> <label class="radio-inline "> <input type="radio"
+											name="optradio" id="inlineRadio3" value="30" checked="true">Last
+											30 Days</input>
+										</label>
+
+
+										<script> $("input[name=optradio]").change(function () {
+											loadReportDataByDuration(3,this.value);
+										
+										});</script>
+									</div>
+								</div>
+								<div class="panel-body">
+									<div id="lineGraph"
+										class="chart-height2 col-lg-12 col-md-12 col-sm-6 col-xs-6"></div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+							<div class="panel panel-light">
+								<div class="panel-heading">
+									<h4 class="panel-title">Dim Levels (Lamps)</h4>
+								</div>
+								<div class="panel-body">
+									<div id="stackedBarGraph"
+										class="chart-height3 col-lg-12 col-md-12 col-sm-6 col-xs-6"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Row ends -->
+					<!-- Row starts -->
+					<div class="row gutter">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div class="panel">
+								<div class="panel-heading">
+									<h4 class="panel-title">Gateway Info</h4>
+								</div>
+								<div class="panel-body">
+									<div class="list-group no-margin">
+										<div
+											class="col-lg-12 col-md-12 col-sm-12 col-xs-12 list-group-item list-group-item-success-new">
+											<a class="col-lg-6 col-md-6 col-sm-6 col-xs-6"
+												th:text="${'Resource Name: '}"></a><a
+												class="col-lg-6 col-md-6 col-sm-6 col-xs-6"
+												th:text="${resourceName}"></a>
+										</div>
+										<br />
+										<div
+											class="col-lg-12 col-md-12 col-sm-12 col-xs-12 list-group-item list-group-item-warning-new">
+											<a class="col-lg-6 col-md-6 col-sm-6 col-xs-6"
+												th:text="${'Resource Type '}"></a><a
+												class="col-lg-6 col-md-6 col-sm-6 col-xs-6"
+												th:text="${type}"></a>
+										</div>
+										<br />
+										<div
+											class="col-lg-12 col-md-12 col-sm-12 col-xs-12 list-group-item list-group-item-success-new">
+											<a class="col-lg-6 col-md-6 col-sm-6 col-xs-6"
+												th:text="${'Resource Id: '}"></a><a
+												class="col-lg-6 col-md-6 col-sm-6 col-xs-6"
+												th:text="${resourceId}"></a>
+										</div>
+										<br />
+										<div
+											class="col-lg-12 col-md-12 col-sm-12 col-xs-12 list-group-item list-group-item-warning-new">
+											<a class="col-lg-6 col-md-6 col-sm-6 col-xs-6"
+												th:text="${'Resource First Registration Date: '}"></a><a
+												class="col-lg-6 col-md-6 col-sm-6 col-xs-6"
+												th:text="${createDate}"></a>
+										</div>
+										<br />
+										<div
+											class="col-lg-12 col-md-12 col-sm-12 col-xs-12 list-group-item list-group-item-success-new">
+											<a class="col-lg-6 col-md-6 col-sm-6 col-xs-6"
+												th:text="${'Resource Last Registration Date: '}"></a><a
+												class="col-lg-6 col-md-6 col-sm-6 col-xs-6"
+												th:text="${lastUpdateDate}"></a>
+										</div>
+										<br />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Row ends -->
+					<!-- Row starts -->
+					<div class="row gutter">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div class="panel">
+								<div class="panel-heading">
+									<h4 class="panel-title">Gateway Management</h4>
+								</div>
+								<div class="panel-body">
+
+									<table
+										class="table table-hover display table-striped table-bordered no-margin dataTable"
+										role="grid" aria-describedby="device_info">
+										<thead>
+											<th>Resource Name</th>
+											<th>Create Date</th>
+										</thead>
+
+										<tbody>
+											<th:block th:each="data, row: ${nodes}">
+												<tr data-toggle="collapse"
+													th:attr="data-target='#accordion'+${#strings.replace(data.ri,'/','')}"
+													class="clickable">
+													<td th:text="#{${data.rn}}"></td>
+													<td th:text="#{${data.pi}}"></td>
+												</tr>
+												<tr>
+													<td colspan="3">
+														<div
+															th:attr="id='accordion'+${#strings.replace(data.ri,'/','')}"
+															class="collapse">
+															<ul id="myTab" class="nav nav-tabs">
+																<li class="active"
+																	th:if="${not #lists.isEmpty(dviList)}"><a
+																	href="#dviTab" data-toggle="tab">Device Info</a></li>
+																<li th:if="${not #lists.isEmpty(swList)}"><a
+																	href="#swTab" data-toggle="tab">Software</a></li>
+																<li th:if="${not #lists.isEmpty(fwList)}"><a
+																	href="#fwTab" data-toggle="tab">Firmware</a></li>
+																<li th:if="${not #lists.isEmpty(batList)}"
+																	data-toggle="tab"><a href="#batTab"
+																	data-toggle="tab">Battery</a></li>
+																<li th:if="${not #lists.isEmpty(memList)}"><a
+																	href="#memTab" data-toggle="tab">Memory</a></li>
+															</ul>
+															<div id="myTabContent" class="tab-content">
+																<div class="tab-pane fade in active" id="dviTab"
+																	th:if="${not #lists.isEmpty(dviList)}">
+																	<table
+																		class="table table-hover display table-striped table-bordered dataTable"
+																		role="grid" aria-describedby="device_info">
+																		<thead>
+																			<th>Resource Name</th>
+																			<th>Id</th>
+																			<th>Manufacturer</th>
+																			<th>Model</th>
+																			<th>Firmware Version</th>
+																			<th>Software Version</th>
+																			<th>Hardware Version</th>
+																		</thead>
+																		<tbody>
+																			<tr th:each="dvi:${dviList}">
+																				<td th:text="#{${dvi.rn}}"></td>
+																				<td th:text="#{${dvi.ri}}"></td>
+																				<td th:text="#{${dvi.man}}"></td>
+																				<td th:text="#{${dvi.mod}}"></td>
+																				<td th:text="#{${dvi.fwv}}"></td>
+																				<td th:text="#{${dvi.swv}}"></td>
+																				<td th:text="#{${dvi.hwv}}"></td>
+																			</tr>
+																		</tbody>
+																	</table>
+																</div>
+																<div class="tab-pane fade in " id="swTab"
+																	th:if="${not #lists.isEmpty(swList)}">
+
+																	<div id="sdtDeviceInfo" class="list-group no-margin"
+																		th:if="not ${swList.isEmpty()}"
+																		th:each="sw : ${swList[0].keySet()}">
+																		<div
+																			class="col-lg-12 col-md-12 col-sm-12 col-xs-12 list-group-item list-group-item-warning-new-bold">
+																			<a class="col-lg-3 col-md-3 col-sm-3 col-xs-6"
+																				href="#" th:text="${sw}"></a>
+																			<p class="col-lg-6 col-md-6 col-sm-6 col-xs-6"
+																				th:text="${swList[0].get(sw)}"></p>
+
+																			<div class="btn-group col-lg-3 col-md-3 col-sm-3 col-xs-6"
+																				th:if="${#strings.contains(sw,'Update State')}">
+																				<button id="observeBtn"  type="button" class="btn btn-primary"> <i class="fa fa-play"></i>Observe</button>
+																				<button id="observeCancelBtn" type="button" class="btn btn-primary"><i class="fa fa-stop"></i> Cancel</button>
+																			</div>
+																		</div>
+
+																	</div>
+																	<div
+																		class="col-lg-12 col-md-12 col-sm-12 col-xs-12 list-group-item list-group-item-warning-new-bold">
+
+																		<button id="subscribe" type="button"
+																			class="btn btn-success " data-original-title=""
+																			style="margin-top: 10px; float: right;"
+																			th:attr="data-id=${#strings.replace(swList[0].get('Resource Id'),'/','')} , data-rn=''+${swList[0].get('Resource Name')}+'',data-huri=''+${swList[0].get('Hierarchical URI')}+'',data-install=''+${swList[0].get('Install')}+''"
+																			data-toggle="modal" data-target="#swModal">
+																			<i class="fa fa-save"></i> Update Software
+																		</button>
+																	</div>
+																	&nbsp;
+
+																	<div class="modal fade" id="swModal" tabindex="-1"
+																		role="dialog" aria-labelledby="swModalLabel"
+																		aria-hidden="true">
+																		<div class="modal-dialog">
+																			<div id="swModal" class="modal-content">
+																				<div class="modal-header">
+																					<button type="button" class="close"
+																						data-dismiss="modal" aria-hidden="true">×</button>
+																					<h4 class="modal-title text-info" id="swModalLabel">Software
+																						Update</h4>
+																				</div>
+																				<div class="modal-body">
+																					<div class="stepwizard">
+																						<div class="stepwizard-row setup-panel">
+																							<div class="stepwizard-step col-xs-3">
+																								<a href="#step-1" type="button"
+																									class="btn btn-success btn-circle">1</a>
+																								<p>
+																									<small>Version</small>
+																								</p>
+																							</div>
+																							<div class="stepwizard-step col-xs-3">
+																								<a href="#step-2" type="button"
+																									class="btn btn-default btn-circle"
+																									disabled="disabled">2</a>
+																								<p>
+																									<small>Installation</small>
+																								</p>
+																							</div>
+
+																						</div>
+																					</div>
+
+																					<form role="form">
+																						<div class="panel panel-primary setup-content"
+																							id="step-1">
+																							<div class="panel-body">
+																								<div class="form-group">
+																									<label for="count">Package Version:</label> <select
+																										id="pkgVersionSlct" class="form-control">
+																										<option th:each="ver : ${pkgVersionList}"
+																											th:value="${ver.id}" th:text="${ver.version}"></option>
+																									</select>
+
+																								</div>
+
+																								<button id="swVerUpdate" type="button"
+																									class="btn btn-primary nextBtn pull-right">
+																									<i class="fa fa-save"></i> Update Software
+																								</button>
+																							</div>
+																						</div>
+
+																						<div class="panel panel-primary setup-content"
+																							id="step-2">
+																							<div class="panel-body">
+
+																								<div class="form-group">
+																									<label for="count" id="pkgUriLbl"></label>
+																								</div>
+																								<button id="swInsUpdate" type="button"
+																									class="btn btn-primary nextBtn pull-right">
+																									<i class="fa fa-play"></i> Execute Update
+																								</button>
+																							</div>
+																						</div>
+																					</form>
+
+																				</div>
+																			</div>
+
+																		</div>
+
+																	</div>
+																</div>
+
+																<div class="tab-pane fade in" id="fwTab"
+																	th:if="${not #lists.isEmpty(fwList)}">
+																	<table
+																		class="table table-hover display table-striped table-bordered dataTable"
+																		role="grid" aria-describedby="device_info">
+																		<thead>
+																			<th>Resource Name</th>
+																			<th>Id</th>
+																			<th>Package Name</th>
+																			<th>Package Version</th>
+																			<th>Package URI</th>
+																			<th>Update State</th>
+																			<th>Update Result</th>
+																		</thead>
+																		<tbody>
+																			<tr th:each="fw:${fwList}">
+																				<td th:text="#{${fw.rn}}"></td>
+																				<td th:text="#{${fw.ri}}"></td>
+																				<td th:text="#{${fw.pkg_name}}"></td>
+																				<td th:text="#{${fw.pkg_ver}}"></td>
+																				<td th:text="#{${fw.pkg_uri}}"></td>
+																				<td th:text="#{${fw.state}}"></td>
+																				<td th:text="#{${fw.upd_result}}"></td>
+																			</tr>
+																		</tbody>
+																	</table>
+																</div>
+																<div class="tab-pane fade in" id="batTab"
+																	th:if="${not #lists.isEmpty(batList)}">
+																	<table
+																		class="table table-hover display table-striped table-bordered dataTable"
+																		role="grid" aria-describedby="device_info">
+																		<thead>
+																			<th>Resource Name</th>
+																			<th>Id</th>
+																			<th>Battery Level</th>
+																			<th>Battery Status</th>
+																		</thead>
+																		<tbody>
+																			<tr th:each="bat:${batList}">
+																				<td th:text="#{${bat.rn}}"></td>
+																				<td th:text="#{${bat.ri}}"></td>
+																				<td th:text="#{${bat.btl}}"></td>
+																				<td th:text="#{${bat.bts}}"></td>
+																			</tr>
+																		</tbody>
+																	</table>
+																</div>
+																<div class="tab-pane fade in" id="memTab"
+																	th:if="${not #lists.isEmpty(memList)}">
+																	<table
+																		class="table table-hover display table-striped table-bordered dataTable"
+																		role="grid" aria-describedby="device_info">
+																		<thead>
+																			<th>Resource Name</th>
+																			<th>Id</th>
+																			<th>Available Memory</th>
+																			<th>Total Memory</th>
+																		</thead>
+																		<tbody>
+																			<tr th:each="mem:${memList}">
+																				<td th:text="#{${mem.rn}}"></td>
+																				<td th:text="#{${mem.ri}}"></td>
+																				<td th:text="#{${mem.memAvailable}}"></td>
+																				<td th:text="#{${mem.memTotal}}"></td>
+																			</tr>
+																		</tbody>
+																	</table>
+																</div>
+															</div>
+
+														</div>
+													</td>
+												</tr>
+											</th:block>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Row ends -->
+					<!-- Row starts -->
+					<div class="row gutter">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div class="panel panel-light">
+								<div class="panel-heading">
+									<h4>Gateway Devices</h4>
+								</div>
+								<div class="panel-body">
+									<button id="createDeviceGroupModalBtn" class="btn btn-success"
+										data-toggle="modal" data-remote="false"
+										data-target="#createDeviceGroupModal" data-original-title=""
+										title="" style="margin-right: 87%;"
+										sec:authorize="hasAuthority('CREATE_APPLICATION') or  #strings.contains(#authentication.principal.roles,'SUPERADMIN')">
+										Create New Group</button>
+									<!-- Modal -->
+									<br /> <br />
+									<div class="modal fade" id="createDeviceGroupModal"
+										tabindex="-1" role="dialog" aria-labelledby="myModalLabel5"
+										aria-hidden="true">
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal"
+														aria-hidden="true">×</button>
+													<h4 class="modal-title text-info" id="myModalLabel5">Create
+														New Group</h4>
+												</div>
+												<div class="modal-body">
+													<!-- content goes here -->
+													<form>
+														<div class="form-group">
+															<label for="count">Device Group Name:</label> <input
+																type="text" class="form-control" id="devGroupName"
+																placeholder="Enter device group name"></input>
+														</div>
+														<div class="form-group">
+															<label for="count">Gateway Resource Name:</label> <input
+																type="text" th:value="${resourceName}"
+																class="form-control" id="gatewayName" disabled="true"></input>
+														</div>
+														<div class="form-group">
+															<label for="count">Gateway Resource Id:</label> <input
+																type="text" th:value="${resourceId}"
+																class="form-control" id="gatewayId" disabled="true"></input>
+														</div>
+
+														<div>
+															<div class="row">
+
+																<div class="col-xs-5">
+																	<label for="deviceListGen">Full Device List:</label> <select
+																		id="deviceListGen" name="from[]"
+																		class="multiselect form-control" size="8"
+																		multiple="multiple" data-right="#multiselect_to_1_gen"
+																		data-right-all="#right_All_1"
+																		data-right-selected="#right_Selected_1"
+																		data-left-all="#left_All_1"
+																		data-left-selected="#left_Selected_1">
+
+																	</select>
+																</div>
+
+																<div class="col-xs-2">
+																	<label for="right_All_1"></label>
+																	<button type="button" id="right_All_1"
+																		class="btn btn-block">
+																		<i class="glyphicon glyphicon-forward"></i>
+																	</button>
+																	<button type="button" id="right_Selected_1"
+																		class="btn btn-block">
+																		<i class="glyphicon glyphicon-chevron-right"></i>
+																	</button>
+																	<button type="button" id="left_Selected_1"
+																		class="btn btn-block">
+																		<i class="glyphicon glyphicon-chevron-left"></i>
+																	</button>
+																	<button type="button" id="left_All_1"
+																		class="btn btn-block">
+																		<i class="glyphicon glyphicon-backward"></i>
+																	</button>
+																</div>
+
+																<div class="col-xs-5">
+																	<label for="multiselect_to_1_gen">Selected
+																		Device List:</label> <select name="to[]"
+																		id="multiselect_to_1_gen" class="form-control"
+																		size="8" multiple="multiple"></select>
+																</div>
+															</div>
+														</div>
+
+													</form>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-danger"
+														data-dismiss="modal" data-original-title="" title="">
+														<i class="fa fa-times"></i> Close
+													</button>
+													<button id="generate" type="button" class="btn btn-success"
+														data-original-title="" title="">
+														<i class="fa fa-save"></i> Generate
+													</button>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="table-responsive">
+										<div id="copy-print-csv_wrapper"
+											class="dataTables_wrapper form-inline dt-bootstrap">
+											<div class="dt-buttons"></div>
+											<div id="copy-print-csv_filter" class="dataTables_filter">
+
+											</div>
+											<table id="device"
+												class="display table table-striped table-bordered no-margin dataTable"
+												role="grid" aria-describedby="device_info">
+												<thead>
+													<tr role="row">
+														<th class="sorting_asc" tabindex="0"
+															aria-controls="device" rowspan="1" colspan="1"
+															aria-label="ResourceName: activate to sort column ascending"
+															style="width: 266px;">ResourceName</th>
+														<th class="sorting" tabindex="0" aria-controls="device"
+															rowspan="1" colspan="1"
+															aria-label="Type: activate to sort column ascending"
+															style="width: 121px;">Type</th>
+														<th class="sorting" tabindex="0" aria-controls="device"
+															rowspan="1" colspan="1"
+															aria-label="ResourceId: activate to sort column ascending"
+															style="width: 66px;">ResourceId</th>
+														<th class="sorting" tabindex="0" aria-controls="device"
+															rowspan="1" colspan="1"
+															aria-label="ApplicationId: activate to sort column ascending"
+															style="width: 66px;">ApplicationId</th>
+														<th class="sorting" tabindex="0" aria-controls="device"
+															rowspan="1" colspan="1"
+															aria-label="PointOfAccess: activate to sort column ascending"
+															style="width: 66px;">PointOfAccess</th>
+														<th class="sorting" tabindex="0" aria-controls="device"
+															rowspan="1" colspan="1"
+															aria-label="HierarchicalUri: activate to sort column ascending"
+															style="width: 66px;">HierarchicalUri</th>
+
+													</tr>
+												</thead>
+												<tfoot>
+													<tr>
+														<th rowspan="1" colspan="1">ResourceName</th>
+														<th rowspan="1" colspan="1">Type</th>
+														<th rowspan="1" colspan="1">ResourceId</th>
+														<th rowspan="1" colspan="1">ApplicationId</th>
+														<th rowspan="1" colspan="1">PointOfAccess</th>
+														<th rowspan="1" colspan="1">HierarchicalUri</th>
+
+													</tr>
+												</tfoot>
+
+											</table>
+											<div class="dataTables_paginate paging_simple_numbers"
+												id="device_paginate"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Row ends -->
+
+
+					<!-- Row starts -->
+					<div class="row gutter">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div class="panel panel-light">
+								<div class="panel-heading">
+									<h4>Gateway Childs Except Device</h4>
+								</div>
+								<div class="panel-body">
+									<div class="table-responsive">
+										<div id="copy-print-csv_wrapper"
+											class="dataTables_wrapper form-inline dt-bootstrap">
+											<div class="dt-buttons"></div>
+											<div id="copy-print-csv_filter" class="dataTables_filter">
+											</div>
+											<table id="nonDevice"
+												class="display table table-striped table-bordered no-margin dataTable"
+												role="grid" aria-describedby="nonDevice_info">
+												<thead>
+													<tr role="row">
+														<th class="sorting_asc" tabindex="0"
+															aria-controls="nonDevice" rowspan="1" colspan="1"
+															aria-label="ResourceName: activate to sort column ascending"
+															style="width: 266px;">ResourceName</th>
+														<th class="sorting" tabindex="0" aria-controls="nonDevice"
+															rowspan="1" colspan="1"
+															aria-label="Type: activate to sort column ascending"
+															style="width: 121px;">Type</th>
+														<th class="sorting" tabindex="0" aria-controls="nonDevice"
+															rowspan="1" colspan="1"
+															aria-label="ResourceId: activate to sort column ascending"
+															style="width: 66px;">ResourceId</th>
+
+													</tr>
+												</thead>
+												<tfoot>
+													<tr>
+														<th rowspan="1" colspan="1">ResourceName</th>
+														<th rowspan="1" colspan="1">Type</th>
+														<th rowspan="1" colspan="1">ResourceId</th>
+													</tr>
+												</tfoot>
+
+											</table>
+											<div class="dataTables_paginate paging_simple_numbers"
+												id="nonDevice_paginate"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Row ends -->
+
+
+				</div>
+				<!-- Spacer ends -->
+
+			</div>
+			<!-- Container fluid ends -->
+		</div>
+		<!-- Main Container ends -->
+
+		<!-- Footer starts -->
+		<footer> Copyright Triote IoT Panel 2017. </footer>
+		<!-- Footer ends -->
+
+	</div>
+
+	<!-- Dashboard Wrapper ends -->
+
+	<!-- Sparkline graphs -->
+	<script th:src="@{./resources/static/js/sparkline.js}"></script>
+
+	<!-- jquery ScrollUp JS -->
+	<script th:src="@{./resources/static/js/scrollup/jquery.scrollUp.js}"></script>
+
+	<!-- Data Tables -->
+	<script th:src="@{./resources/static/js/datatables/dataTables.min.js}"></script>
+	<script
+		th:src="@{./resources/static/js/datatables/dataTables.bootstrap.min.js}"></script>
+	<script
+		th:src="@{./resources/static/js/datatables/dataTables.tableTools.js}"></script>
+	<script th:src="@{./resources/static/js/datatables/autoFill.min.js}"></script>
+	<script
+		th:src="@{./resources/static/js/datatables/autoFill.bootstrap.min.js}"></script>
+	<script th:src="@{./resources/static/js/datatables/fixedHeader.min.js}"></script>
+
+	<!-- Download / CSV / Copy / Print -->
+	<script th:src="@{./resources/static/js/datatables/buttons.min.js}"></script>
+	<script th:src="@{./resources/static/js/datatables/flash.min.js}"></script>
+	<script th:src="@{./resources/static/js/datatables/jszip.min.js}"></script>
+	<script th:src="@{./resources/static/js/datatables/pdfmake.min.js}"></script>
+	<script th:src="@{./resources/static/js/datatables/vfs_fonts.js}"></script>
+	<script th:src="@{./resources/static/js/datatables/html5.min.js}"></script>
+	<script
+		th:src="@{./resources/static/js/datatables/buttons.print.min.js}"></script>
+
+	<!-- Custom Data tables -->
+	<script
+		th:src="@{./resources/static/js/datatables/custom-datatables.js}"></script>
+
+	<!-- Custom Index -->
+	<script th:src="@{./resources/static/js/custom.js}"></script>
+	<!-- 		<script th:src="@{./resources/static/js/custom-index.js}" src="js/custom-index.js"></script> -->
+
+	<!-- D3 JS -->
+	<script th:src="@{./resources/static/js/d3/d3.min.js}"></script>
+	<!-- C3 JS -->
+	<script th:src="@{./resources/static/js/c3/c3.min.js}"></script>
+	<!-- 		<script th:src="@{./resources/static/js/c3/c3.custom.js}"></script> -->
+
+	<!-- Notifications JS -->
+	<script th:src="@{./resources/static/js/alertify.js}"></script>
+	<script th:src="@{./resources/static/js/alertify-custom.js}"></script>
+
+
+	<a id="scrollUp" href="gateway.html#top"
+		style="position: fixed; z-index: 2147483647; display: none;"> <i
+		class="fa fa-chevron-up"></i>
+	</a>
+	<div class="jvectormap-label"></div>
+	<div id="ui-datepicker-div"
+		class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div>
+</body>
+</html>

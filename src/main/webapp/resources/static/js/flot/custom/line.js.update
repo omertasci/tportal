@@ -1,0 +1,84 @@
+var $border_color = "#ccc";
+var $grid_color = "#ccc";
+var $default_black = "#666";
+
+var $primary = "#005387";
+var $info = "#87CEEB";
+var $danger = "#F56B6B";
+var $warning = "#F38733";
+var $success = "#2ecc71";
+var $yellow = "#fdd922";
+var $facebook = "#3b5999";
+var $twitter = "#00acee";
+var $linkedin = "#1a85bd";
+var $gplus = "#dc4937";
+
+$(function () {
+		
+		var d1, d2, data, chartOptions;
+
+		var d1 = [[1262304000000, 5.4], [1264982400000, 20.0], [1267401600000, 16.5], [1270080000000, 18.2], [1272672000000, 11.3], [1275350400000, 19.5], [1277942400000, 30.2], [1280620800000, 35.7], [1283299200000, 37.0], [1285891200000, 27.0], [1288569600000, 21.0], [1291161600000, 17.0]];
+		var d2 = [[1262304000000, 2.8], [1264982400000, 12.0], [1267401600000, 12.5], [1270080000000, 21.2], [1272672000000, 16.4], [1275350400000, 17.5], [1277942400000, 24.2], [1280620800000, 32.7], [1283299200000, 27.0], [1285891200000, 29.0], [1288569600000, 23.0], [1291161600000, 10.8]];
+
+		data = [{ 
+			label: "TRIOTE_HOME_GW_61_TS_01", 
+			data: d1
+		}, {
+			label: "TRIOTE_HOME_GW_61_TS_02",
+			data: d2
+		}];
+ 
+		chartOptions = {
+			xaxis: {
+				min: (new Date(2009, 11)).getTime(),
+				max: (new Date(2010, 11)).getTime(),
+				mode: "time",
+				tickSize: [1, "month"],
+				monthNames: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+				tickLength: 0
+			},
+				yaxis: {
+
+				},
+				series: {
+					lines: {
+						show: true, 
+						fill: false,
+						lineWidth: 1,
+					},
+					points: {
+						show: true,
+						radius: 4,
+						fill: true,
+						fillColor: "#ffffff",
+						lineWidth: 2
+					}
+				},
+				 grid:{
+	        hoverable: true,
+	        clickable: true,
+	        borderWidth: 1,
+	        tickColor: '#eee',
+        	borderColor: '#eee',
+	      },
+	      shadowSize: 0,
+				legend: {
+					show: true,
+					position: 'nw'
+				},
+				
+				tooltip: true,
+				tooltipOpts: {
+					content: '%s: %y'
+				},
+				colors: [$facebook, $gplus, $twitter],
+		};
+
+		var holder = $('#line-chart');
+
+		if (holder.length) {
+			$.plot(holder, data, chartOptions );
+		}
+
+
+});
