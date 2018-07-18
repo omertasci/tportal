@@ -120,11 +120,14 @@ public class MySimpleUrlAuthenticationSuccessHandler implements AuthenticationSu
         }
 //        User currentUser = (User) authentication.getPrincipal();
         if (isUser) {
-            return "/login";
+//            return "/login";
+            return "/index.html";
         } else if (isAdmin) {
-            return "/login";
+//            return "/login";
+        	return "/index.html";
         } else if (isSuperAdmin) {
-            return "/login";
+//            return "/login";
+        	return "/index.html";
       }
         else {
             throw new IllegalStateException();
